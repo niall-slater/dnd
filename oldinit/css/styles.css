@@ -1,0 +1,34 @@
+.header {
+  background: #eee;
+  margin-bottom: 14px;
+  padding: 4px;
+}
+
+.character-sheet {
+  border: 1px solid #eee;
+}
+
+.bio {
+  background: #efefef;
+  padding: 4px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.stats {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stat-value sub {
+  bottom: 20%;
+  color: grey;
+  position: absolute;
+  right: 20%;
+}
