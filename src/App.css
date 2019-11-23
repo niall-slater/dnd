@@ -7,7 +7,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #071126;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,4 +19,43 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.stat {
+  background: #333;
+  border-radius: 4px;
+  color: #fff;
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  margin-right: 8px;
+  padding: 4px;
+}
+
+.stat-value {
+  background: white;
+  border-radius: 100%;
+  color: #333;
+  padding: 4px;
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.stat-value span {
+}
+
+.stat-value sub {
+  background: skyblue;
+  border-radius: 100%;
+  color: #333;
+  font-size: 14px;
+  padding: 4px;
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
 }
