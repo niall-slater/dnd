@@ -5,11 +5,11 @@ class Stat extends Component {
     return (
       <div className="stat">
         <div className="stat-label">
-          <span>{this.props.statLabel}</span>
+          <span>{this.props.stat.name}</span>
         </div>
         <div className="stat-value">
-          <span>{this.props.statValue}</span>
-          <sub>{this.props.subValue}</sub>
+          <span>{this.props.stat.value}</span>
+          <sub>{this.props.stat.subValue}</sub>
         </div>
       </div>
     )

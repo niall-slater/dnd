@@ -1,6 +1,7 @@
 import React from 'react';
 import Stat from './Stat';
 import Helpers from './Helpers';
+import uuid from 'uuid';
 
 const statNames = [
   "STR",
@@ -16,19 +17,20 @@ class Character extends React.Component{
   constructor(props) {
     super(props);
     let stats = this.buildRandomStats();
-    this.stats = stats;
+    this.state ={stats}
     this.regenerate = this.regenerate.bind(this);
     this.buildRandomStats = this.buildRandomStats.bind(this);
   }
   
   regenerate() {
     console.log("HONK");
-    this.stats = this.buildRandomStats();
+    let stats = this.buildRandomStats();
+    this.setState({stats})
   }
   
   buildRandomStats() {
     let stats = [];
-    for (var statName in statNames) {
+      for (var x = 0; x < statNames.length; x++) {
       var statValue = 0;
       var initRolls = [];
       for (var i = 0; i < 4; i++) {
@@ -38,7 +40,7 @@ class Character extends React.Component{
       statValue = Helpers.getTotal(initRolls);
       var subValue = Math.floor((statValue - 10) / 2);
       var newStat = {
-        name: statName,
+        name: statNames[x],
         value: statValue,
         subValue: subValue
       };
@@ -48,17 +50,22 @@ class Character extends React.Component{
     return stats;
   }
 
+  renderStats() {
+    var stats = [];
+    this.state.stats.forEach(stat => {
+      stats.push(<Stat
+          key={uuid.v4()}
+          stat={stat}/>)
+    });
+    return stats;
+  }
+
   render() {
+    let stats = this.renderStats();      
+
     return (
-    <div id="stats">
-      {this.stats.map((stat, i) => {return(
-        <Stat
-            key={i}
-            statLabel={stat.name.toUpperCase()}
-            statValue={stat.value}
-            subValue={stat.subValue}>
-        </Stat>
-      )})}
+    <div id="stats">      
+      {stats}
       <button onClick={this.regenerate}>Give me a character!</button>
     </div>
     );

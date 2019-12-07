@@ -1,7 +1,7 @@
-class Helpers {
+export default class Helpers {
 
   /* DICE ROLLS */  
-  rollDice(sides, numberOfDice) {
+  static rollDice(sides, numberOfDice) {
     var result = 0;
     for (var i = 0; i < numberOfDice; i++) {
       result += this.rollDie(sides);
@@ -9,23 +9,19 @@ class Helpers {
     return result;
   }
 
-  rollDie(sides) {
+  static rollDie(sides) {
     return Math.ceil(Math.random() * sides);
   }
   
   /* ARRAY OPERATIONS */
-  removeSmallest(arr) {
+  static removeSmallest(arr) {
     var min = Math.min(...arr);
     return arr.filter(e => e != min);
   }
 
-  getTotal(arr) {
+  static getTotal(arr) {
     var total = 0;
     arr.forEach((x) => total += x);
     return total;
   }
 }
-
-var helper = new Helpers();
-
-export default helper;
