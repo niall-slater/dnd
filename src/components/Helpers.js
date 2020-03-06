@@ -16,7 +16,7 @@ export default class Helpers {
   /* ARRAY OPERATIONS */
   static removeSmallest(arr) {
     var min = Math.min(...arr);
-    return arr.filter(e => e != min);
+    return arr.filter(e => e !== min);
   }
 
   static getTotal(arr) {
