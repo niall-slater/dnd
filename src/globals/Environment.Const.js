@@ -3,7 +3,7 @@ const dev = {
 }
 
 const staging = {
-    API_LOCATION: 'https://criticalassist20200306020512.azurewebsites.net/'
+    API_LOCATION: 'https://criticalassist.azurewebsites.net/'
 }
 
 export const Environment = staging;

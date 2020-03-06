@@ -1,6 +1,7 @@
 {
-  "name": "dnd",
+  "name": "criticalassist",
   "version": "0.1.0",
+  "homepage": "/criticalassist",
   "private": true,
   "dependencies": {
     "react": "^16.12.0",
