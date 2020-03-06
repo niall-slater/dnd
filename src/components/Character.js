@@ -2,70 +2,44 @@ import React from 'react';
 import Stat from './Stat';
 import Helpers from './Helpers';
 import uuid from 'uuid';
-
-const statNames = [
-  "STR",
-  "DEX",
-  "CON",
-  "INT",
-  "WIS",
-  "CHA"
-];
+import { Environment } from '../globals/Environment.Const';
 
 class Character extends React.Component{
 
   constructor(props) {
     super(props);
-    let stats = this.buildRandomStats();
-    this.state ={stats}
+    this.regenerate();
     this.regenerate = this.regenerate.bind(this);
-    this.buildRandomStats = this.buildRandomStats.bind(this);
   }
   
   regenerate() {
-    console.log("HONK");
-    let stats = this.buildRandomStats();
-    this.setState({stats})
-  }
-  
-  buildRandomStats() {
-    let stats = [];
-      for (var x = 0; x < statNames.length; x++) {
-      var statValue = 0;
-      var initRolls = [];
-      for (var i = 0; i < 4; i++) {
-        initRolls.push(Helpers.rollDie(6));
-      }
-      initRolls = Helpers.removeSmallest(initRolls);
-      statValue = Helpers.getTotal(initRolls);
-      var subValue = Math.floor((statValue - 10) / 2);
-      var newStat = {
-        name: statNames[x],
-        value: statValue,
-        subValue: subValue
-      };
-      stats.push(newStat);
-    }
-    
-    return stats;
-  }
-
-  renderStats() {
-    var stats = [];
-    this.state.stats.forEach(stat => {
-      stats.push(<Stat
-          key={uuid.v4()}
-          stat={stat}/>)
+    this.setState({
+      isLoaded: false,
+      stats: {}
     });
-    return stats;
+    fetch(Environment.API_LOCATION + 'character/generate')
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            stats: result.stats
+          });
+        },
+        (error) => {
+          console.log(error);
+          this.setState({
+            isLoaded: true,
+            stats: {}
+          });
+        }
+      );
   }
 
-  render() {
-    let stats = this.renderStats();      
-
+  render() {    
     return (
     <div id="stats">      
-      {stats}
+      {this.stats}
       <button onClick={this.regenerate}>Give me a character!</button>
     </div>
     );
