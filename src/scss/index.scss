@@ -1,0 +1,133 @@
+// Override default variables before the import
+$body-bg: #000;
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  
+  .App {
+    text-align: center;
+    background-color: #071126;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-header {
+    background: #333;
+    font-size: 20px;
+
+    .navbar-brand .logo {
+      max-width: 32px;
+    }
+  }
+  
+  .App-logo {
+    height: 40vmin;
+  }
+  
+  .App-link {
+    color: #09d3ac;
+  }
+
+  .bio {
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  .stat {
+    background: #333;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    flex-direction: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 6px;
+
+    &.inline {
+      width: 80px;
+      margin: 4px;
+      padding: 0;
+
+      .stat-label {
+        font-weight: bold;
+        margin-right: 8px;
+        padding: 0;
+        padding-left: 4px;
+        padding-top: 2px;
+        width: 50%;
+      }
+
+      .stat-value {
+        border-radius: 0 4px 4px 0;
+        margin: 0;
+      }
+      
+      &.longtext {
+        display: inline;
+        padding: 4px;
+
+        .stat-label {
+          font-weight: normal;
+        }
+
+        .stat-value {
+          background: none;
+          color: #fff;
+          margin-left: 10px;
+        }
+      }
+    }
+  
+    .stat-label {
+      margin-right: 8px;
+      padding: 4px;
+    }
+    
+    .stat-value {
+      background: #fff;
+      border-radius: 100%;
+      color: #333;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 4px;
+      position: relative;
+      width: 40px;
+      height: 40px;
+    
+      sub {
+        background: skyblue;
+        border-radius: 100%;
+        color: #333;
+        font-size: 14px;
+        font-weight: normal;
+        height: 24px;
+        width: 24px;
+        bottom: -8px;
+        right: -18px;
+        padding-top: 10px;
+        position: absolute;
+      }
+    }
+  }
+  
+  .loading {
+    height: 100%;
+    width: 100%;
+  }

@@ -1,5 +1,7 @@
 import React from 'react';
 import Stat from './Stat';
+import StatWithSubvalue from './StatWithSubvalue';
+import StatLongText from './StatLongText';
 import uuid from 'uuid';
 import { Environment } from '../globals/Environment.Const';
 
@@ -16,14 +18,19 @@ class Character extends React.Component{
     this.regenerate = this.regenerate.bind(this);
     this.renderStats = this.renderStats.bind(this);
     this.renderName = this.renderName.bind(this);
-    this.renderHome = this.renderHome.bind(this);
+    this.renderBio = this.renderBio.bind(this);
   }
   
   regenerate() {
     var stats = [];
     this.setState({
       isLoaded: false,
-      stats: stats
+      character: {
+        stats: {},
+        home: {},
+        race: {},
+        class: {}
+      }
     });
     fetch(Environment.API_LOCATION + 'character/generate')
       .then(res => res.json())
@@ -45,9 +52,8 @@ class Character extends React.Component{
 
           this.setState({
             isLoaded: true,
-            stats: stats,
-            name: result.name,
-            home: result.home.name
+            character: result,
+            stats: stats
           });
         },
         (error) => {
@@ -64,10 +70,10 @@ class Character extends React.Component{
     var stats = [];
     if (!this.state.isLoaded)
     {
-      return (<div class="loading">Loading...</div>);
+      return (<div className="loading">Loading...</div>);
     }
     this.state.stats.forEach(stat => {
-      stats.push(<Stat
+      stats.push(<StatWithSubvalue
           key={uuid.v4()}
           stat={stat}/>)
     });
@@ -75,25 +81,58 @@ class Character extends React.Component{
   }
 
   renderName() {
-    return(<h2>{this.state.name}</h2>);
+    return(<h2>{this.state.character.name}</h2>);
   }
 
-  renderHome() {
-    return(<h3>{this.state.home}</h3>);
+  renderBio() {
+    var character = this.state.character;
+    var proficiency = "+" + character.proficiencyBonus;
+    var speed = character.speed + "ft";
+    var hitDie = "1d" + character.class.hitDie;
+    console.log(character);
+    return(
+      <div>
+        <div className="row mb-2 ml-0">
+          <Stat name="Lvl" value={character.level}></Stat>
+          <Stat name="AC" value={character.ac}></Stat>
+          <Stat name="HP" value={character.maxHp}></Stat>
+        </div>
+        <div className="bio">
+          <p>{character.race.name} {character.class.name} from the town of {character.home.name}.</p>
+        </div>
+        <div className="bio">
+          <p><StatLongText name="Proficiency bonus" value={proficiency}></StatLongText></p>
+          <p><StatLongText name="Speed" value={speed}></StatLongText></p>
+          <p><StatLongText name="Hit die" value={hitDie}></StatLongText></p>
+          <p><StatLongText name="Alignment" value={character.alignmentName}></StatLongText></p>
+        </div>
+      </div>
+    );
   }
 
   render() {
+    if (!this.state.isLoaded)
+    {
+      return (<div className="loading">Loading...</div>);
+    }
     let stats = this.renderStats();
     let name = this.renderName();
-    let home = this.renderHome();
-    //TODO: {home} causes an error - fix this
+    let bio = this.renderBio();
     return (
-    <div id="stats">
-      {name}
-      {home}
-      {stats}
-      <button onClick={this.regenerate}>Give me a character!</button>
-    </div>
+      <div className="container">
+        <div className="row">
+          {name}
+        </div>
+        <div className="row">
+          <div className="col-sm">
+            {bio}
+          </div>
+          <div className="col-xs">
+            {stats}
+          </div>
+        </div>
+        <button className="btn btn-secondary" onClick={this.regenerate}>Give me a character!</button>
+      </div>
     );
   }
 }

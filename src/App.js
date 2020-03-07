@@ -1,6 +1,7 @@
 import React from 'react';
+import Navbar from './components/Navbar';
 import Character from './components/Character';
-import './App.css';
+import './scss/index.scss';
 
 export default class App extends React.Component {
 
@@ -11,10 +12,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h2 className="Nav-item">Critical Assist</h2>
-          <a className="Nav-item" href="https://www.twitter.com/niall_slater">@niall_slater</a>
-        </header>
+        <Navbar />
         <Character />
       </div>
     );
