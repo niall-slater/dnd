@@ -12,8 +12,9 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
+          <h2 className="Nav-item">Critical Assist</h2>
+          <a className="Nav-item" href="https://www.twitter.com/niall_slater">@niall_slater</a>
         </header>
-        <h4>Ability Scores</h4>
         <Character />
       </div>
     );

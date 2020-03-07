@@ -14,6 +14,9 @@ class Character extends React.Component{
   {
     this.regenerate();
     this.regenerate = this.regenerate.bind(this);
+    this.renderStats = this.renderStats.bind(this);
+    this.renderName = this.renderName.bind(this);
+    this.renderHome = this.renderHome.bind(this);
   }
   
   regenerate() {
@@ -44,7 +47,7 @@ class Character extends React.Component{
             isLoaded: true,
             stats: stats,
             name: result.name,
-            home: result.home
+            home: result.home.name
           });
         },
         (error) => {
@@ -59,6 +62,10 @@ class Character extends React.Component{
 
   renderStats() {
     var stats = [];
+    if (!this.state.isLoaded)
+    {
+      return (<div class="loading">Loading...</div>);
+    }
     this.state.stats.forEach(stat => {
       stats.push(<Stat
           key={uuid.v4()}
@@ -76,8 +83,6 @@ class Character extends React.Component{
   }
 
   render() {
-    if (!this.state.isLoaded)
-      return(<>Loading...</>);
     let stats = this.renderStats();
     let name = this.renderName();
     let home = this.renderHome();
@@ -85,6 +90,7 @@ class Character extends React.Component{
     return (
     <div id="stats">
       {name}
+      {home}
       {stats}
       <button onClick={this.regenerate}>Give me a character!</button>
     </div>
