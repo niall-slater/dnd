@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Navbar extends Component {
   render() {
     return (
-    <nav className="App-header navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav className="App-header navbar navbar-expand-md navbar-dark bg-dark">
       <a className="navbar-brand" href="#"><img className="logo" src="./favicon.png" alt="" /></a>
       <ul className="navbar-nav mr-auto">
         <li className="nav-item active">

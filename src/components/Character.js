@@ -16,9 +16,9 @@ class Character extends React.Component{
   {
     this.regenerate();
     this.regenerate = this.regenerate.bind(this);
+    this.renderAttributes = this.renderAttributes.bind(this);
     this.renderStats = this.renderStats.bind(this);
     this.renderName = this.renderName.bind(this);
-    this.renderBio = this.renderBio.bind(this);
   }
   
   regenerate() {
@@ -66,7 +66,7 @@ class Character extends React.Component{
       );
   }
 
-  renderStats() {
+  renderAttributes() {
     var stats = [];
     if (!this.state.isLoaded)
     {
@@ -81,24 +81,26 @@ class Character extends React.Component{
   }
 
   renderName() {
-    return(<h2>{this.state.character.name}</h2>);
+    var character = this.state.character; 
+    return(
+      <div class="container">
+        <h2>{this.state.character.name}</h2>
+        <p className="ml-1">{character.race.name} {character.class.name} from the town of {character.home.name}.</p>
+      </div>
+    );
   }
 
-  renderBio() {
+  renderStats() {
     var character = this.state.character;
     var proficiency = "+" + character.proficiencyBonus;
     var speed = character.speed + "ft";
     var hitDie = "1d" + character.class.hitDie;
-    console.log(character);
     return(
-      <div>
+      <div className="container">
         <div className="row mb-2 ml-0">
           <Stat name="Lvl" value={character.level}></Stat>
           <Stat name="AC" value={character.ac}></Stat>
           <Stat name="HP" value={character.maxHp}></Stat>
-        </div>
-        <div className="bio">
-          <p>{character.race.name} {character.class.name} from the town of {character.home.name}.</p>
         </div>
         <div className="bio">
           <p><StatLongText name="Proficiency bonus" value={proficiency}></StatLongText></p>
@@ -116,22 +118,22 @@ class Character extends React.Component{
       return (<div className="loading">Loading...</div>);
     }
     let stats = this.renderStats();
+    let attributes = this.renderAttributes();
     let name = this.renderName();
-    let bio = this.renderBio();
     return (
       <div className="container">
-        <div className="row">
+        <div className="row mt-2 ml-1">
           {name}
         </div>
         <div className="row">
-          <div className="col-sm">
-            {bio}
-          </div>
-          <div className="col-xs">
+          <div className="col col-8">
             {stats}
           </div>
+          <div className="col col-3 mr-1">
+            {attributes}
+          </div>
         </div>
-        <button className="btn btn-secondary" onClick={this.regenerate}>Give me a character!</button>
+        <button className="btn btn-secondary mt-3" onClick={this.regenerate}>Give me a new character!</button>
       </div>
     );
   }
