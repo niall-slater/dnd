@@ -83,7 +83,7 @@ class Character extends React.Component{
   renderName() {
     var character = this.state.character; 
     return(
-      <div class="container">
+      <div className="container">
         <h2>{this.state.character.name}</h2>
         <p className="ml-1">{character.race.name} {character.class.name} from the town of {character.home.name}.</p>
       </div>
@@ -133,7 +133,7 @@ class Character extends React.Component{
             {attributes}
           </div>
         </div>
-        <button className="btn btn-secondary mt-3" onClick={this.regenerate}>Give me a new character!</button>
+        <button className="btn btn-secondary mt-3" onClick={this.regenerate}>Generate a level 1 character</button>
       </div>
     );
   }

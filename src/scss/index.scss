@@ -67,9 +67,11 @@ body {
     border-radius: 4px;
     color: #fff;
     display: flex;
-    flex-direction: row nowrap;
+    flex-direction: row;
+    flex-grow: 1;
     justify-content: space-between;
     margin-bottom: 6px;
+    width: 100%;
 
     &.inline {
       width: 80px;
@@ -101,7 +103,9 @@ body {
         .stat-value {
           background: none;
           color: #fff;
+          font-size: 13px;
           margin-left: 10px;
+          white-space: nowrap;
         }
       }
     }
@@ -117,13 +121,14 @@ body {
       color: #333;
       font-size: 20px;
       font-weight: bold;
+      min-width: 40px;
       padding: 4px;
       position: relative;
       width: 40px;
       height: 40px;
     
       sub {
-        background: skyblue;
+        background: #87ceeb;
         border-radius: 100%;
         color: #333;
         font-size: 14px;
@@ -131,7 +136,7 @@ body {
         height: 24px;
         width: 24px;
         bottom: -8px;
-        right: -18px;
+        right: -12px;
         padding-top: 10px;
         position: absolute;
       }
