@@ -11,8 +11,6 @@ class CharacterList extends React.Component{
   renderCharacterCards()
   {
     var chars = this.props.savedCharacters;
-    console.log(typeof chars);
-    console.log(chars);
 
     if (chars === null || !chars)
     {
@@ -22,10 +20,14 @@ class CharacterList extends React.Component{
     var cards = [];
 
     chars.forEach(c => {
-      cards.push(<CharacterCard character={c} key={c.id} />)
+      cards.push(<CharacterCard character={c} key={c.id} onClickOnCharacterCard={this.onClickOnCharacterCard} />)
     });
 
     return (cards);
+  }
+
+  onClickOnCharacterCard(character) {
+    console.log(character.name);
   }
 
   render() {

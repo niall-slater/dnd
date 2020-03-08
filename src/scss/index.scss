@@ -166,6 +166,9 @@ body {
   }
   
   .loading {
-    height: 100%;
-    width: 100%;
+    transition: .4s ease;
+    opacity: .65;
+    position: absolute;
+    left: 40%;
+    top: 40%;
   }

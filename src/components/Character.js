@@ -4,6 +4,7 @@ import StatWithSubvalue from './StatWithSubvalue';
 import StatLongText from './StatLongText';
 import uuid from 'uuid';
 import { Environment } from '../globals/Environment.Const';
+import { Mocks } from '../globals/Mocks.Const';
 
 class Character extends React.Component{
 
@@ -26,12 +27,7 @@ class Character extends React.Component{
     var stats = [];
     this.setState({
       isLoaded: false,
-      character: {
-        stats: {},
-        home: {},
-        race: {},
-        class: {}
-      }
+      character: Mocks.character
     });
     fetch(Environment.API_LOCATION + 'character/generate')
       .then(res => res.json())
@@ -75,7 +71,7 @@ class Character extends React.Component{
     var stats = [];
     if (!this.state.isLoaded)
     {
-      return (<div className="loading">Loading...</div>);
+      return (<div className="loading">Loading stats...</div>);
     }
     this.state.stats.forEach(stat => {
       stats.push(<StatWithSubvalue
@@ -118,10 +114,6 @@ class Character extends React.Component{
   }
 
   render() {
-    if (!this.state.isLoaded)
-    {
-      return (<div className="loading">Loading...</div>);
-    }
     let stats = this.renderStats();
     let attributes = this.renderAttributes();
     let name = this.renderName();
