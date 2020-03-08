@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar';
-import Character from './components/Character';
+import CharacterManager from './pages/CharacterManager';
 import './scss/index.scss';
 
 export default class App extends React.Component {
@@ -13,7 +13,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <Navbar />
-        <Character />
+        <CharacterManager />
       </div>
     );
   }

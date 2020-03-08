@@ -19,6 +19,7 @@ class Character extends React.Component{
     this.renderAttributes = this.renderAttributes.bind(this);
     this.renderStats = this.renderStats.bind(this);
     this.renderName = this.renderName.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
   
   regenerate() {
@@ -64,6 +65,10 @@ class Character extends React.Component{
           });
         }
       );
+  }
+
+  onSave(character) {
+    this.props.onSaveCharacter(character);   
   }
 
   renderAttributes() {
@@ -133,7 +138,8 @@ class Character extends React.Component{
             {attributes}
           </div>
         </div>
-        <button className="btn btn-secondary mt-3" onClick={this.regenerate}>Generate a level 1 character</button>
+        <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a level 1 character</button>
+        <button className="btn btn-secondary mt-3" onClick={() => this.onSave(this.state.character)}>Save this character</button>
       </div>
     );
   }

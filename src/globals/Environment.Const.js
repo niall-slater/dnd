@@ -6,4 +6,4 @@ const staging = {
     API_LOCATION: 'https://criticalassist.azurewebsites.net/'
 }
 
-export const Environment = dev;
+export const Environment = staging;
