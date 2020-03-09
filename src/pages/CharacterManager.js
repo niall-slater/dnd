@@ -11,9 +11,14 @@ class CharacterManager extends React.Component{
 
     this.loadSavedCharacters = this.loadSavedCharacters.bind(this);
     this.saveCharacter = this.saveCharacter.bind(this);
+    this.selectCharacter = this.selectCharacter.bind(this);
+
+    var savedCharacters = this.loadSavedCharacters();
+    var activeCharacter = savedCharacters[0];
 
     this.state = {
-        savedCharacters: this.loadSavedCharacters()
+      savedCharacters: savedCharacters,
+      activeCharacter: activeCharacter
     };
   }
 
@@ -56,13 +61,17 @@ class CharacterManager extends React.Component{
     this.setState({savedCharacters: currentCharacters});
   }
 
+  selectCharacter(character) {
+    this.setState({activeCharacter: character});
+  }
+
   render() {
       return(
           <div className="container toolBox">
             <h1>Character Manager</h1>
-            <Character onSaveCharacter={this.saveCharacter} />
+            <Character character={this.state.activeCharacter} onSaveCharacter={this.saveCharacter} />
             
-            <CharacterList savedCharacters={this.state.savedCharacters} />
+            <CharacterList onClickOnCharacterCard={this.selectCharacter} savedCharacters={this.state.savedCharacters} />
           </div>
       );
   }

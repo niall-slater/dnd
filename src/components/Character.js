@@ -11,42 +11,53 @@ class Character extends React.Component{
 
   constructor(props) {
     super(props);
-    this.state = {};
-  }
-
-  componentWillMount()
-  {
-    this.regenerate();
     this.regenerate = this.regenerate.bind(this);
     this.renderAttributes = this.renderAttributes.bind(this);
+    this.formatStats = this.formatStats.bind(this);
     this.renderStats = this.renderStats.bind(this);
     this.renderName = this.renderName.bind(this);
     this.onSave = this.onSave.bind(this);
   }
+
+  componentWillMount() {
+    if (!this.props.character) {
+        this.regenerate();
+    } else {
+      var character = this.props.character;
+      var stats = this.formatStats(character);
+      this.setState({
+        isLoaded: true,
+        character: character,
+        stats: stats
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.character.id !== prevProps.character.id)
+    {
+      var character = this.props.character;
+      var stats = this.formatStats(character);
+      this.setState({
+        character: character,
+        stats: stats
+      });
+    }
+  } 
   
   regenerate() {
     var stats = [];
+
     this.setState({
       isLoaded: false,
       character: Mocks.character
     });
+
     fetch(Environment.API_LOCATION + 'character/generate')
       .then(res => res.json())
       .then(
         (result) => {
-          for (var stat in result.stats)
-          {
-            var statName = stat;
-            var statValue = result.stats[stat];
-            var subValue = Math.floor((statValue - 10) / 2);
-
-            var formattedStat = {
-              name: statName.toUpperCase(),
-              value: statValue,
-              subValue: subValue
-            };
-            stats.push(formattedStat);
-          }
+          stats = this.formatStats(result);
 
           this.setState({
             isLoaded: true,
@@ -60,8 +71,26 @@ class Character extends React.Component{
       );
   }
 
+  formatStats(character) {
+    var stats = [];
+    for (var stat in character.stats)
+    {
+      var statName = stat;
+      var statValue = character.stats[stat];
+      var subValue = Math.floor((statValue - 10) / 2);
+
+      var formattedStat = {
+        name: statName.toUpperCase(),
+        value: statValue,
+        subValue: subValue
+      };
+      stats.push(formattedStat);
+    }
+    return stats;
+  }
+
   onSave(character) {
-    this.props.onSaveCharacter(character);   
+    this.props.onSaveCharacter(character);
   }
 
   renderAttributes() {
@@ -79,8 +108,8 @@ class Character extends React.Component{
   }
 
   renderName() {
-    var character = this.state.character; 
-    return(
+    var character = this.state.character;
+    return (
       <div className="container">
         <h2>{this.state.character.name}</h2>
         <p className="ml-1">{character.race.name} {character.class.name}</p>
@@ -116,6 +145,7 @@ class Character extends React.Component{
     let name = this.renderName();
     return (
       <div className="container">
+        <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a new Lv1 character</button>
         <div className="row mt-2 ml-1">
           {name}
         </div>
@@ -132,7 +162,6 @@ class Character extends React.Component{
             <SkillSet skills={this.state.character.skillSet} />
           </div>
         </div>
-        <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a level 1 character</button>
         <button className="btn btn-secondary mt-3" onClick={() => this.onSave(this.state.character)}>Save this character</button>
       </div>
     );

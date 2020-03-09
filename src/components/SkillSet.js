@@ -17,13 +17,15 @@ class SkillSet extends React.Component {
 
     keys.forEach(key => {
       var skill = skillSet[key];
-      if (skill.modifier >= 0)
+
+      //TODO: bug where this is called again on save - once fixed remove the second condition here
+      if (skill.modifier >= 0 && skill.modifier[0] !== "+")
         skill.modifier = "+" + skill.modifier;
 
-      var element = <div className="skill"><StatLongText name={key} value={skill.modifier} /></div>;
+      var element = <div className="skill" key={key}><StatLongText name={key} value={skill.modifier} /></div>;
 
       if (skill.proficient)
-        element = <div className="skill proficient"><StatLongText name={key} value={skill.modifier} /></div>;
+        element = <div className="skill proficient" key={key}><StatLongText name={key} value={skill.modifier} /></div>;
 
       skillsArray.push(element);
     });

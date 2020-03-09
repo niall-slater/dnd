@@ -6,6 +6,7 @@ class CharacterList extends React.Component{
   constructor(props) {
     super(props);
     this.renderCharacterCards = this.renderCharacterCards.bind(this);
+    this.onClickOnCharacterCard = this.onClickOnCharacterCard.bind(this);
   }
 
   renderCharacterCards()
@@ -27,7 +28,7 @@ class CharacterList extends React.Component{
   }
 
   onClickOnCharacterCard(character) {
-    console.log(character.name);
+    this.props.onClickOnCharacterCard(character);
   }
 
   render() {
