@@ -25,6 +25,7 @@ class Character extends React.Component{
     } else {
       var character = this.props.character;
       var stats = this.formatStats(character);
+      this.props.onLoadEnd();
       this.setState({
         isLoaded: true,
         character: character,
@@ -34,6 +35,9 @@ class Character extends React.Component{
   }
 
   componentDidUpdate(prevProps) {
+    if (!this.props.character)
+      return;
+
     if(this.props.character.id !== prevProps.character.id)
     {
       var character = this.props.character;
@@ -48,9 +52,11 @@ class Character extends React.Component{
   regenerate() {
     var stats = [];
 
+    this.props.onLoadStart();
     this.setState({
       isLoaded: false,
-      character: Mocks.character
+      character: Mocks.character,
+      stats: this.formatStats(Mocks.character)
     });
 
     fetch(Environment.API_LOCATION + 'character/generate')
@@ -59,6 +65,7 @@ class Character extends React.Component{
         (result) => {
           stats = this.formatStats(result);
 
+      this.props.onLoadEnd();
           this.setState({
             isLoaded: true,
             character: result,
@@ -95,10 +102,6 @@ class Character extends React.Component{
 
   renderAttributes() {
     var stats = [];
-    if (!this.state.isLoaded)
-    {
-      return (<div className="loading">Loading stats...</div>);
-    }
     this.state.stats.forEach(stat => {
       stats.push(<StatWithSubvalue
           key={uuid.v4()}
@@ -145,7 +148,6 @@ class Character extends React.Component{
     let name = this.renderName();
     return (
       <div className="container">
-        <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a new Lv1 character</button>
         <div className="row mt-2 ml-1">
           {name}
         </div>
@@ -162,6 +164,8 @@ class Character extends React.Component{
             <SkillSet skills={this.state.character.skillSet} />
           </div>
         </div>
+        <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a new Lv1 character</button>
+        <br />
         <button className="btn btn-secondary mt-3" onClick={() => this.onSave(this.state.character)}>Save this character</button>
       </div>
     );

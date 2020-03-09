@@ -1,5 +1,6 @@
 import React from 'react';
 import CharacterCard from './CharacterCard';
+import LocalStorageHelper from '../helpers/LocalStorageHelper';
 
 class CharacterList extends React.Component{
 
@@ -7,13 +8,14 @@ class CharacterList extends React.Component{
     super(props);
     this.renderCharacterCards = this.renderCharacterCards.bind(this);
     this.onClickOnCharacterCard = this.onClickOnCharacterCard.bind(this);
+    this.clearCharacters = this.clearCharacters.bind(this);
   }
 
   renderCharacterCards()
   {
     var chars = this.props.savedCharacters;
 
-    if (chars === null || !chars)
+    if (chars === null || !chars || chars.length === 0)
     {
       return (<p>No saved characters</p>);
     }
@@ -31,6 +33,10 @@ class CharacterList extends React.Component{
     this.props.onClickOnCharacterCard(character);
   }
 
+  clearCharacters() {
+    this.props.clearCharacters();
+  }
+
   render() {
     var characterCards = this.renderCharacterCards();
 
@@ -40,6 +46,7 @@ class CharacterList extends React.Component{
             <div className="characterList">
               {characterCards}
             </div>
+            <button className="btn btn-secondary" onClick={this.clearCharacters}>Clear characters</button>
           </div>
       );
   }

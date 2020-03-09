@@ -67,6 +67,7 @@ body {
     box-shadow: 0 0 14px rgba(0,0,0,0.4);
     margin: 14px;
     padding: 14px;
+    transition: .4s ease;
   }
 
   .characterList {
@@ -166,13 +167,13 @@ body {
   }
   
   .skills {
-    align-items: flex-start;
-    justify-content: center;
     display: flex;
     flex-flow: row wrap;
 
     .skill {
       margin: 8px;
+      flex-basis: 10%;
+      flex-grow: 1;
 
       .stat {
         .stat-value {
@@ -191,9 +192,5 @@ body {
   }
 
   .loading {
-    transition: .4s ease;
-    opacity: .65;
-    position: absolute;
-    left: 40%;
-    top: 40%;
+    filter: brightness(0.5);
   }

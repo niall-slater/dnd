@@ -12,6 +12,9 @@ class CharacterManager extends React.Component{
     this.loadSavedCharacters = this.loadSavedCharacters.bind(this);
     this.saveCharacter = this.saveCharacter.bind(this);
     this.selectCharacter = this.selectCharacter.bind(this);
+    this.clearCharacters = this.clearCharacters.bind(this);
+    this.onLoadStart = this.onLoadStart.bind(this);
+    this.onLoadEnd = this.onLoadEnd.bind(this);
 
     var savedCharacters = this.loadSavedCharacters();
     var activeCharacter = savedCharacters[0];
@@ -65,13 +68,35 @@ class CharacterManager extends React.Component{
     this.setState({activeCharacter: character});
   }
 
+  clearCharacters() {
+    LocalStorageHelper.Clear();
+    this.setState({savedCharacters: []})
+  }
+
+  onLoadStart() {
+    this.setState({loading: true});
+  }
+
+  onLoadEnd() {
+    this.setState({loading: false});
+  }
+
   render() {
       return(
-          <div className="container toolBox">
-            <h1>Character Manager</h1>
-            <Character character={this.state.activeCharacter} onSaveCharacter={this.saveCharacter} />
+          <div className={`container toolBox ${this.state.loading ? "loading" : ""}`}>
+            <h3 className="text-muted">Character generator</h3>
+            <Character
+              character={this.state.activeCharacter}
+              onSaveCharacter={this.saveCharacter}
+              onLoadStart={this.onLoadStart}
+              onLoadEnd={this.onLoadEnd}
+            />
             
-            <CharacterList onClickOnCharacterCard={this.selectCharacter} savedCharacters={this.state.savedCharacters} />
+            <CharacterList
+              onClickOnCharacterCard={this.selectCharacter}
+              savedCharacters={this.state.savedCharacters}
+              clearCharacters={this.clearCharacters}
+            />
           </div>
       );
   }
