@@ -2,6 +2,7 @@ import React from 'react';
 import Stat from './Stat';
 import StatWithSubvalue from './StatWithSubvalue';
 import StatLongText from './StatLongText';
+import SkillSet from './SkillSet';
 import uuid from 'uuid';
 import { Environment } from '../globals/Environment.Const';
 import { Mocks } from '../globals/Mocks.Const';
@@ -55,10 +56,6 @@ class Character extends React.Component{
         },
         (error) => {
           console.log(error);
-          this.setState({
-            isLoaded: true,
-            stats: {}
-          });
         }
       );
   }
@@ -86,7 +83,7 @@ class Character extends React.Component{
     return(
       <div className="container">
         <h2>{this.state.character.name}</h2>
-        <p className="ml-1">{character.race.name} {character.class.name} from the town of {character.home.name}.</p>
+        <p className="ml-1">{character.race.name} {character.class.name}</p>
       </div>
     );
   }
@@ -128,6 +125,11 @@ class Character extends React.Component{
           </div>
           <div className="col col-3 mr-1">
             {attributes}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col col-12">
+            <SkillSet skills={this.state.character.skillSet} />
           </div>
         </div>
         <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a level 1 character</button>

@@ -165,6 +165,31 @@ body {
     }
   }
   
+  .skills {
+    align-items: flex-start;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+
+    .skill {
+      margin: 8px;
+
+      .stat {
+        .stat-value {
+          font-size: 14px;
+        }
+      }
+
+      &.proficient {
+        .stat-value {
+          border-radius: 100%;
+          border: 1px solid gold;
+          color: gold;
+        }
+      }
+    }
+  }
+
   .loading {
     transition: .4s ease;
     opacity: .65;
