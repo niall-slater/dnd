@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class StatLongText extends Component {
 
@@ -7,7 +7,7 @@ class StatLongText extends Component {
       <span className="stat inline longtext">
         <span className="stat-label">{this.props.name}<span className="stat-value">{this.props.value}</span></span>
       </span>
-    )
+    );
   }
 }
 

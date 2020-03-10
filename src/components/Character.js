@@ -1,4 +1,5 @@
 import React from 'react';
+import NameField from './editable/NameField';
 import Stat from './Stat';
 import StatWithSubvalue from './StatWithSubvalue';
 import StatLongText from './StatLongText';
@@ -41,7 +42,7 @@ class Character extends React.Component{
         stats: stats
       });
     }
-  } 
+  }
   
   regenerate = () => {
     var stats = [];
@@ -108,7 +109,7 @@ class Character extends React.Component{
     var character = this.state.character;
     return (
       <div className="container">
-        <h2>{this.state.character.name}</h2>
+        <NameField name={this.state.character.name} onChange={this.onEditName} />
         <p className="ml-1">{character.race.name} {character.class.name}</p>
       </div>
     );
@@ -136,6 +137,15 @@ class Character extends React.Component{
     );
   }
 
+  onEditName = (name) => {
+    var newChar = this.state.character;
+    newChar.name = name;
+    this.setState({
+      character: newChar
+    });
+    this.onSave(newChar);
+  }
+
   render() {
     let stats = this.renderStats();
     let attributes = this.renderAttributes();
@@ -143,7 +153,7 @@ class Character extends React.Component{
     return (
       <div className="container">
         <div className="row mt-2 ml-1">
-          {name}
+            {name}
         </div>
         <div className="row">
           <div className="col col-8">

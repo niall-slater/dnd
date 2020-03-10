@@ -30,30 +30,33 @@ class CharacterManager extends React.Component{
   saveCharacter = (character) => {
     var currentCharacters = this.loadSavedCharacters();
 
+    // Update the list with any changes made to the characters
+    var newList = currentCharacters;
     var conflict = false;
 
-    if (currentCharacters)
-    {
+    if (currentCharacters) {
       currentCharacters.forEach(c => {
         if (c.id === character.id)
         {
+          newList[currentCharacters.indexOf(c)] = character;
+          c = character;
           conflict = true;
           return;
         }
       });
     }
+    currentCharacters = newList;
 
-    if (conflict)
-    {
-      //TODO: raise toast saying character already saved
-      return;
+    if (!conflict) {
+      currentCharacters.push(character);
     }
-
-    currentCharacters.push(character);
 
     LocalStorageHelper.Save(StorageKeys.SAVED_CHARACTERS, currentCharacters);
 
-    this.setState({savedCharacters: currentCharacters});
+    this.setState({
+      savedCharacters: currentCharacters,
+      activeCharacter: character
+    });
   }
 
   selectCharacter = (character) => {
