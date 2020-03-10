@@ -5,12 +5,9 @@ class SkillSet extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.renderSkills = this.renderSkills.bind(this);
   }
 
-  renderSkills(skillSet)
-  {
+  renderSkills = (skillSet) => {
     var skillsArray = [];
 
     var keys = Object.keys(skillSet);

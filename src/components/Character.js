@@ -11,12 +11,6 @@ class Character extends React.Component{
 
   constructor(props) {
     super(props);
-    this.regenerate = this.regenerate.bind(this);
-    this.renderAttributes = this.renderAttributes.bind(this);
-    this.formatStats = this.formatStats.bind(this);
-    this.renderStats = this.renderStats.bind(this);
-    this.renderName = this.renderName.bind(this);
-    this.onSave = this.onSave.bind(this);
   }
 
   componentWillMount() {
@@ -49,7 +43,7 @@ class Character extends React.Component{
     }
   } 
   
-  regenerate() {
+  regenerate = () => {
     var stats = [];
 
     this.props.onLoadStart();
@@ -78,7 +72,7 @@ class Character extends React.Component{
       );
   }
 
-  formatStats(character) {
+  formatStats = (character) => {
     var stats = [];
     for (var stat in character.stats)
     {
@@ -96,11 +90,11 @@ class Character extends React.Component{
     return stats;
   }
 
-  onSave(character) {
+  onSave = (character) => {
     this.props.onSaveCharacter(character);
   }
 
-  renderAttributes() {
+  renderAttributes = () => {
     var stats = [];
     this.state.stats.forEach(stat => {
       stats.push(<StatWithSubvalue
@@ -110,7 +104,7 @@ class Character extends React.Component{
     return stats;
   }
 
-  renderName() {
+  renderName = () => {
     var character = this.state.character;
     return (
       <div className="container">
@@ -120,7 +114,7 @@ class Character extends React.Component{
     );
   }
 
-  renderStats() {
+  renderStats = () =>  {
     var character = this.state.character;
     var proficiency = "+" + character.proficiencyBonus;
     var speed = character.speed + "ft";

@@ -4,10 +4,9 @@ class CharacterCard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
+  handleClick = () => {
     this.props.onClickOnCharacterCard(this.props.character);
   }
 

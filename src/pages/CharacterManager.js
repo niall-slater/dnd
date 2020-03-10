@@ -9,13 +9,6 @@ class CharacterManager extends React.Component{
   constructor(props) {
     super(props);
 
-    this.loadSavedCharacters = this.loadSavedCharacters.bind(this);
-    this.saveCharacter = this.saveCharacter.bind(this);
-    this.selectCharacter = this.selectCharacter.bind(this);
-    this.clearCharacters = this.clearCharacters.bind(this);
-    this.onLoadStart = this.onLoadStart.bind(this);
-    this.onLoadEnd = this.onLoadEnd.bind(this);
-
     var savedCharacters = this.loadSavedCharacters();
     var activeCharacter = savedCharacters[0];
 
@@ -25,8 +18,7 @@ class CharacterManager extends React.Component{
     };
   }
 
-  loadSavedCharacters()
-  {
+  loadSavedCharacters = () => {
     var loadedData = LocalStorageHelper.Load(StorageKeys.SAVED_CHARACTERS);
     if (loadedData === null || !loadedData)
     {
@@ -35,7 +27,7 @@ class CharacterManager extends React.Component{
     return loadedData;
   }
 
-  saveCharacter(character) {
+  saveCharacter = (character) => {
     var currentCharacters = this.loadSavedCharacters();
 
     var conflict = false;
@@ -64,20 +56,20 @@ class CharacterManager extends React.Component{
     this.setState({savedCharacters: currentCharacters});
   }
 
-  selectCharacter(character) {
+  selectCharacter = (character) => {
     this.setState({activeCharacter: character});
   }
 
-  clearCharacters() {
+  clearCharacters = () => {
     LocalStorageHelper.Clear();
     this.setState({savedCharacters: []})
   }
 
-  onLoadStart() {
+  onLoadStart = () => {
     this.setState({loading: true});
   }
 
-  onLoadEnd() {
+  onLoadEnd = () => {
     this.setState({loading: false});
   }
 

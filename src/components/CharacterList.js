@@ -6,13 +6,9 @@ class CharacterList extends React.Component{
 
   constructor(props) {
     super(props);
-    this.renderCharacterCards = this.renderCharacterCards.bind(this);
-    this.onClickOnCharacterCard = this.onClickOnCharacterCard.bind(this);
-    this.clearCharacters = this.clearCharacters.bind(this);
   }
 
-  renderCharacterCards()
-  {
+  renderCharacterCards = () => {
     var chars = this.props.savedCharacters;
 
     if (chars === null || !chars || chars.length === 0)
@@ -29,11 +25,11 @@ class CharacterList extends React.Component{
     return (cards);
   }
 
-  onClickOnCharacterCard(character) {
+  onClickOnCharacterCard = (character) => {
     this.props.onClickOnCharacterCard(character);
   }
 
-  clearCharacters() {
+  clearCharacters = () => {
     this.props.clearCharacters();
   }
 
