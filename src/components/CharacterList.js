@@ -42,6 +42,7 @@ class CharacterList extends React.Component{
             <div className="characterList">
               {characterCards}
             </div>
+            <br />
             <button className="btn btn-secondary" onClick={this.clearCharacters}>Clear characters</button>
           </div>
       );

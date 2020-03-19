@@ -4,7 +4,7 @@ import CharacterList from '../components/CharacterList';
 import { StorageKeys } from '../globals/StorageKeys.Const';
 import LocalStorageHelper from '../helpers/LocalStorageHelper';
 
-class CharacterManager extends React.Component{
+class CharacterSheet extends React.Component{
 
   constructor(props) {
     super(props);
@@ -79,25 +79,22 @@ class CharacterManager extends React.Component{
   render() {
       return(
           <div className={`container toolBox ${this.state.loading ? "loading" : ""}`}>
-            <h3 className="text-muted">Character Manager</h3>
-            
-            <CharacterList
-              onClickOnCharacterCard={this.selectCharacter}
-              savedCharacters={this.state.savedCharacters}
-              clearCharacters={this.clearCharacters}
-            />
-
-            <br />
-            
+            <h3 className="text-muted">Character sheet</h3>
             <Character
               character={this.state.activeCharacter}
               onSaveCharacter={this.saveCharacter}
               onLoadStart={this.onLoadStart}
               onLoadEnd={this.onLoadEnd}
             />
+            
+            <CharacterList
+              onClickOnCharacterCard={this.selectCharacter}
+              savedCharacters={this.state.savedCharacters}
+              clearCharacters={this.clearCharacters}
+            />
           </div>
       );
   }
 }
 
-export default CharacterManager;
+export default CharacterSheet;

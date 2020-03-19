@@ -15,12 +15,18 @@ export default class App extends React.Component {
     }
   }
 
+  selectTool = (tool) => {
+    this.setState({
+      currentTool: tool
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <h2 className="display-4 pt-3">Critical Assist</h2>
         <p className="text lead">Your RPG assistant <span className="text-muted">| A work-in-progress v{version}</span></p>
-        <ToolBar />
+        <ToolBar selectTool={this.selectTool} />
         {this.state.currentTool}
       </div>
     );
