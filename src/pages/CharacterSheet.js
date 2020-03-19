@@ -1,99 +1,126 @@
 import React from 'react';
-import Character from '../components/Character';
-import CharacterList from '../components/CharacterList';
-import { StorageKeys } from '../globals/StorageKeys.Const';
-import LocalStorageHelper from '../helpers/LocalStorageHelper';
+import Stat from '../components/Stat';
+import StatWithSubvalue from '../components/StatWithSubvalue';
+import StatLongText from '../components/StatLongText';
+import SkillSet from '../components/SkillSet';
 
 class CharacterSheet extends React.Component{
 
   constructor(props) {
     super(props);
 
-    var savedCharacters = this.loadSavedCharacters();
-    var activeCharacter = savedCharacters[0];
+    var character = this.props.character;
 
     this.state = {
-      savedCharacters: savedCharacters,
-      activeCharacter: activeCharacter
+      activeCharacter: character
     };
   }
 
-  loadSavedCharacters = () => {
-    var loadedData = LocalStorageHelper.Load(StorageKeys.SAVED_CHARACTERS);
-    if (loadedData === null || !loadedData)
-    {
-      return [];
-    }
-    return loadedData;
+  renderName = () => {
+    var character = this.state.activeCharacter;
+    return (
+      <div className="row">
+        <h1>{character.name}</h1>
+        <p className="ml-1">Lvl.{character.level} {character.race.name} {character.class.name}</p>
+      </div>
+    );
   }
 
-  saveCharacter = (character) => {
-    var currentCharacters = this.loadSavedCharacters();
-
-    // Update the list with any changes made to the characters
-    var newList = currentCharacters;
-    var conflict = false;
-
-    if (currentCharacters) {
-      currentCharacters.forEach(c => {
-        if (c.id === character.id)
-        {
-          newList[currentCharacters.indexOf(c)] = character;
-          c = character;
-          conflict = true;
-          return;
-        }
-      });
-    }
-    currentCharacters = newList;
-
-    if (!conflict) {
-      currentCharacters.push(character);
-    }
-
-    LocalStorageHelper.Save(StorageKeys.SAVED_CHARACTERS, currentCharacters);
-
-    this.setState({
-      savedCharacters: currentCharacters,
-      activeCharacter: character
-    });
+  renderStats = () =>  {
+    var character = this.state.activeCharacter;
+    var proficiency = "+" + character.proficiencyBonus;
+    var speed = character.speed + "ft";
+    var hitDie = "1d" + character.class.hitDie;
+    return(
+      <div className="row">
+        <div className="col-3">
+          <Stat name="Lvl" value={character.level}></Stat>
+          <Stat name="HP" value={character.hp + "/" + character.maxHp}></Stat>
+          <Stat name="AC" value={character.ac}></Stat>
+        </div>
+        <div className="col-9">
+          <p><StatLongText name="Speed" value={speed}></StatLongText></p>
+          <p><StatLongText name="Hit die" value={hitDie}></StatLongText></p>
+          <p><StatLongText name="Alignment" value={character.alignmentName}></StatLongText></p>
+        </div>
+      </div>
+    );
   }
 
-  selectCharacter = (character) => {
-    this.setState({activeCharacter: character});
+  renderRolls = () =>  {
+    var character = this.state.activeCharacter;
+    return(
+      <div className="row">
+        <div className="btn-group">
+          <button className="btn btn-primary">Saving throw</button>
+          <button className="btn btn-secondary">Skill check</button>
+          <button className="btn btn-primary">Attack roll</button>
+          <button className="btn btn-secondary">Regular dice roll</button>
+        </div>
+      </div>
+    );
   }
 
-  clearCharacters = () => {
-    LocalStorageHelper.Clear();
-    this.setState({savedCharacters: []})
+  renderSpells = () =>  {
+    var character = this.state.activeCharacter;
+    return(
+      <div className="row">
+      <div className="col-6">
+        <button className="btn btn-primary btn-large">Cast a spell</button>
+      </div>
+        <div className="col-6">
+          <small className="text-muted">Spell slots coming soon</small>
+        </div>
+      </div>
+    );
   }
 
-  onLoadStart = () => {
-    this.setState({loading: true});
-  }
-
-  onLoadEnd = () => {
-    this.setState({loading: false});
+  renderRests = () => {
+    var character = this.state.activeCharacter;
+    return(
+      <div className="row">
+        <div className="btn-group">
+          <button className="btn btn-secondary">Short rest</button>
+          <button className="btn btn-primary">Long rest</button>
+        </div>
+      </div>
+    );
   }
 
   render() {
-      return(
-          <div className={`container toolBox ${this.state.loading ? "loading" : ""}`}>
-            <h3 className="text-muted">Character sheet</h3>
-            <Character
-              character={this.state.activeCharacter}
-              onSaveCharacter={this.saveCharacter}
-              onLoadStart={this.onLoadStart}
-              onLoadEnd={this.onLoadEnd}
-            />
-            
-            <CharacterList
-              onClickOnCharacterCard={this.selectCharacter}
-              savedCharacters={this.state.savedCharacters}
-              clearCharacters={this.clearCharacters}
-            />
+    var name = this.renderName();
+    var stats = this.renderStats();
+    var rolls = this.renderRolls();
+    var spells = this.renderSpells();
+    var rests = this.renderRests();
+    return(
+        <div className={`container toolBox ${this.state.loading ? "loading" : ""}`}>
+          <h3 className="text-muted">Character sheet</h3>
+          <div className="container">
+            {name}
           </div>
-      );
+          <p>Attributes</p>
+          <hr />
+          <div className="container">
+            {stats}
+          </div>
+          <hr />
+          <p>Dice rolls</p>
+          <div className="container">
+            {rolls}
+          </div>
+          <hr />
+          <p>Spellcasting</p>
+          <div className="container">
+            {spells}
+          </div>
+          <hr />
+          <p>Rests</p>
+          <div className="container">
+            {rests}
+          </div>
+        </div>
+    );
   }
 }
 

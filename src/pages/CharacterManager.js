@@ -16,6 +16,8 @@ class CharacterManager extends React.Component{
       savedCharacters: savedCharacters,
       activeCharacter: activeCharacter
     };
+
+    this.props.setActiveCharacter(activeCharacter);
   }
 
   loadSavedCharacters = () => {
@@ -88,7 +90,7 @@ class CharacterManager extends React.Component{
             />
 
             <br />
-            
+
             <Character
               character={this.state.activeCharacter}
               onSaveCharacter={this.saveCharacter}
