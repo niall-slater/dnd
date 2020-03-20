@@ -11,87 +11,91 @@ $body-bg: #000;
 @import './toolbar.module.scss';
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.App {
+  text-align: center;
+  background-color: $primary-navy;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 22px;
+  color: $primary-text;
+}
+
+.App-header {
+  background: $primary-black;
+  font-size: 20px;
+  position: relative;
+  flex-wrap: nowrap;
+  top: 0;
+  width: 100%;
+
+  .navbar-nav {
+    flex-direction: row;
   }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
+
+  .nav-item {
+    margin-right: 14px;
   }
-  
-  .App {
-    text-align: center;
-    background-color: $primary-navy;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 22px;
-    color: $primary-text;
+
+  .navbar-brand .logo {
+    max-width: 32px;
   }
-  
-  .App-header {
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.bio {
+  font-size: 18px;
+  text-align: left;
+}
+
+.toolBox {
+  background:  rgba(250,250,250,0.02);
+  box-shadow: 0 0 14px rgba(0,0,0,0.4);
+  margin: 14px;
+  padding: 14px;
+  transition: .4s ease;
+}
+
+.characterList {
+  display: flex;
+  flex-flow: row wrap;
+
+  .characterCard {
     background: $primary-black;
-    font-size: 20px;
-    position: relative;
-    flex-wrap: nowrap;
-    top: 0;
-    width: 100%;
-
-    .navbar-nav {
-      flex-direction: row;
-    }
-
-    .nav-item {
-      margin-right: 14px;
-    }
-
-    .navbar-brand .logo {
-      max-width: 32px;
-    }
+    border: 1px $primary-accent solid;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-grow: 1;
+    flex-basis: 5%;
+    margin: 4px;
   }
-  
-  .App-logo {
-    height: 40vmin;
-  }
-  
-  .App-link {
-    color: #09d3ac;
-  }
+}
 
-  .bio {
-    font-size: 18px;
-    text-align: left;
-  }
+.highlight {
+  border: 1px solid $primary-highlight;
+}
 
-  .toolBox {
-    background:  rgba(250,250,250,0.02);
-    box-shadow: 0 0 14px rgba(0,0,0,0.4);
-    margin: 14px;
-    padding: 14px;
-    transition: .4s ease;
-  }
-
-  .characterList {
-    display: flex;
-    flex-flow: row wrap;
-
-    .characterCard {
-      background: $primary-black;
-      border: 1px $primary-accent solid;
-      border-radius: 4px;
-      cursor: pointer;
-      flex-grow: 1;
-      flex-basis: 5%;
-      margin: 4px;
-    }
-  }
-
-  .loading {
-    filter: brightness(0.5);
-  }
+.loading {
+  filter: brightness(0.5);
+}

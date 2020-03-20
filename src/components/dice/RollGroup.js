@@ -49,8 +49,8 @@ class RollGroup extends Component {
     switch (this.state.activeRollMenu)
     {
       case this.menus.SAVE: return <RollMenuSave character={this.props.character} />;
-      case this.menus.SKILL: return <RollMenuSkill />;
-      case this.menus.ATTACK: return <RollMenuAttack />;
+      case this.menus.SKILL: return <RollMenuSkill character={this.props.character} />;
+      case this.menus.ATTACK: return <RollMenuAttack character={this.props.character} />;
       case this.menus.GENERAL: return <RollMenuGeneral />;
       default: return <></>
     }
