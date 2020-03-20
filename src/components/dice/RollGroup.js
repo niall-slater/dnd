@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import RollButton from './RollButton';
 import RollMenuSave from './RollMenuSave';
 import RollMenuSkill from './RollMenuSkill';
 import RollMenuAttack from './RollMenuAttack';
@@ -47,10 +46,9 @@ class RollGroup extends Component {
   }
 
   renderActiveMenu = () => {
-    console.log(this.state.activeRollMenu);
     switch (this.state.activeRollMenu)
     {
-      case this.menus.SAVE: return <RollMenuSave />;
+      case this.menus.SAVE: return <RollMenuSave character={this.props.character} />;
       case this.menus.SKILL: return <RollMenuSkill />;
       case this.menus.ATTACK: return <RollMenuAttack />;
       case this.menus.GENERAL: return <RollMenuGeneral />;
@@ -73,9 +71,7 @@ class RollGroup extends Component {
           <button className="btn btn-secondary" 
             onClick={this.onClickRegular}>Regular dice roll</button>
         </div>
-        <div className="rollMenu">
-          {activeMenu}
-        </div>
+        {activeMenu}
       </div>
     );
   }

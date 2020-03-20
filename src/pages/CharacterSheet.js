@@ -49,7 +49,7 @@ class CharacterSheet extends React.Component{
   renderRolls = () =>  {
     var character = this.state.activeCharacter;
     return(
-      <RollGroup />
+      <RollGroup character={character} />
     );
   }
 

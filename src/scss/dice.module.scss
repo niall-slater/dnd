@@ -1,13 +1,31 @@
-.rollButton {
-  display: flex;
-  flex-flow: column nowrap;
+.rollMenu {
+  background: $primary-navy-lighter;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+  display: block;
+  text-align: center;
+  margin: 12px auto;
+  padding: 12px 4px;
+  width: 100%;
 
-  .dice-label {
-    
+  .btn-group {
+
+    .btn {
+      margin: 4px;
+    }
   }
 
-  .dice-value {
-    background: $primary-text;
-    color: $primary-black;
+  .rollButton {
+    background: $primary-black;
+    border: 2px outset $primary-black;
+    font-weight: bold;
+    margin: 8px;
+  
+    .dice-label {
+    }
+  
+    .dice-value {
+      color: $primary-highlight;
+      font-weight: bold;
+    }
   }
 }
