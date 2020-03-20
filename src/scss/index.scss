@@ -3,6 +3,13 @@ $body-bg: #000;
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 
+// Import custom modules
+@import './variables.scss';
+@import './dice.module.scss';
+@import './stats.module.scss';
+@import './skills.module.scss';
+@import './toolbar.module.scss';
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -19,17 +26,17 @@ body {
   
   .App {
     text-align: center;
-    background-color: #071126;
+    background-color: $primary-navy;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 22px;
-    color: white;
+    color: $primary-text;
   }
   
   .App-header {
-    background: #333;
+    background: $primary-black;
     font-size: 20px;
     position: relative;
     flex-wrap: nowrap;
@@ -75,119 +82,13 @@ body {
     flex-flow: row wrap;
 
     .characterCard {
-      background: #333;
-      border: 1px skyblue solid;
+      background: $primary-black;
+      border: 1px $primary-accent solid;
       border-radius: 4px;
       cursor: pointer;
       flex-grow: 1;
       flex-basis: 5%;
       margin: 4px;
-    }
-  }
-  
-  .stat {
-    background: #333;
-    border-radius: 4px;
-    color: #fff;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    width: 100%;
-
-    &.inline {
-      width: 80px;
-      margin: 4px;
-      padding: 0;
-
-      .stat-label {
-        font-weight: bold;
-        margin-right: 8px;
-        padding: 0;
-        padding-left: 4px;
-        padding-top: 3px;
-        width: 50%;
-      }
-
-      .stat-value {
-        border-radius: 0 4px 4px 0;
-        margin: 0;
-      }
-      
-      &.longtext {
-        display: inline;
-        padding: 4px;
-
-        .stat-label {
-          font-weight: normal;
-          white-space: nowrap;
-        }
-
-        .stat-value {
-          background: none;
-          color: #fff;
-          font-size: 13px;
-          margin-left: 10px;
-          white-space: nowrap;
-        }
-      }
-    }
-  
-    .stat-label {
-      margin-right: 8px;
-      padding: 4px;
-    }
-    
-    .stat-value {
-      background: #fff;
-      border-radius: 100%;
-      color: #333;
-      font-size: 20px;
-      font-weight: bold;
-      min-width: 40px;
-      padding: 4px;
-      position: relative;
-      width: 40px;
-      height: 40px;
-    
-      sub {
-        background: #87ceeb;
-        border-radius: 100%;
-        color: #333;
-        font-size: 14px;
-        font-weight: normal;
-        height: 24px;
-        width: 24px;
-        bottom: -8px;
-        right: -12px;
-        padding-top: 10px;
-        position: absolute;
-      }
-    }
-  }
-  
-  .skills {
-    display: flex;
-    flex-flow: row wrap;
-
-    .skill {
-      margin: 8px;
-      flex-basis: 10%;
-      flex-grow: 1;
-
-      .stat {
-        .stat-value {
-          font-size: 14px;
-        }
-      }
-
-      &.proficient {
-        .stat-value {
-          border-radius: 100%;
-          border: 1px solid gold;
-          color: gold;
-        }
-      }
     }
   }
 

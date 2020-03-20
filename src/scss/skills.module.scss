@@ -1,0 +1,24 @@
+.skills {
+  display: flex;
+  flex-flow: row wrap;
+
+  .skill {
+    margin: 8px;
+    flex-basis: 10%;
+    flex-grow: 1;
+
+    .stat {
+      .stat-value {
+        font-size: 14px;
+      }
+    }
+
+    &.proficient {
+      .stat-value {
+        border-radius: 100%;
+        border: 1px solid $primary-highlight;
+        color: $primary-highlight;
+      }
+    }
+  }
+}

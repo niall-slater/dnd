@@ -1,8 +1,7 @@
 import React from 'react';
 import Stat from '../components/Stat';
-import StatWithSubvalue from '../components/StatWithSubvalue';
 import StatLongText from '../components/StatLongText';
-import SkillSet from '../components/SkillSet';
+import RollGroup from '../components/dice/RollGroup';
 
 class CharacterSheet extends React.Component{
 
@@ -50,14 +49,7 @@ class CharacterSheet extends React.Component{
   renderRolls = () =>  {
     var character = this.state.activeCharacter;
     return(
-      <div className="row">
-        <div className="btn-group">
-          <button className="btn btn-primary">Saving throw</button>
-          <button className="btn btn-secondary">Skill check</button>
-          <button className="btn btn-primary">Attack roll</button>
-          <button className="btn btn-secondary">Regular dice roll</button>
-        </div>
-      </div>
+      <RollGroup />
     );
   }
 

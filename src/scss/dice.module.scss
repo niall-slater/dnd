@@ -1,0 +1,13 @@
+.rollButton {
+  display: flex;
+  flex-flow: column nowrap;
+
+  .dice-label {
+    
+  }
+
+  .dice-value {
+    background: $primary-text;
+    color: $primary-black;
+  }
+}

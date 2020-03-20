@@ -1,0 +1,80 @@
+.stat {
+    background: $primary-black;
+    border-radius: 4px;
+    color: $primary-text;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    width: 100%;
+
+    &.inline {
+      width: 80px;
+      margin: 4px;
+      padding: 0;
+
+      .stat-label {
+        font-weight: bold;
+        margin-right: 8px;
+        padding: 0;
+        padding-left: 4px;
+        padding-top: 3px;
+        width: 50%;
+      }
+
+      .stat-value {
+        border-radius: 0 4px 4px 0;
+        margin: 0;
+      }
+      
+      &.longtext {
+        display: inline;
+        padding: 4px;
+
+        .stat-label {
+          font-weight: normal;
+          white-space: nowrap;
+        }
+
+        .stat-value {
+          background: none;
+          color: $primary-text;
+          font-size: 13px;
+          margin-left: 10px;
+          white-space: nowrap;
+        }
+      }
+    }
+  
+    .stat-label {
+      margin-right: 8px;
+      padding: 4px;
+    }
+    
+    .stat-value {
+      background: $primary-text;
+      border-radius: 100%;
+      color: $primary-black;
+      font-size: 20px;
+      font-weight: bold;
+      min-width: 40px;
+      padding: 4px;
+      position: relative;
+      width: 40px;
+      height: 40px;
+    
+      sub {
+        background: $primary-accent;
+        border-radius: 100%;
+        color: $primary-black;
+        font-size: 14px;
+        font-weight: normal;
+        height: 24px;
+        width: 24px;
+        bottom: -8px;
+        right: -12px;
+        padding-top: 10px;
+        position: absolute;
+      }
+    }
+  }

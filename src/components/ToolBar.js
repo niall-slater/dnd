@@ -7,10 +7,15 @@ class ToolBar extends Component {
     super(props);
 
     this.selectToolCallback = props.selectTool;
+
+    this.state = {
+      currentTool: props.currentTool
+    }
   }
 
   selectTool = (tool) => {
     this.selectToolCallback(tool);
+    this.setState({currentTool: tool});
   }
 
   selectManager = () => {
@@ -21,11 +26,17 @@ class ToolBar extends Component {
     this.selectTool(Tools.SHEET);
   }
 
+  renderButtonClassName = (tool) => {
+    return (`btn m-2 ${this.state.currentTool === tool ? "btn-primary active" : "btn-secondary"}`);
+  }
+
   render() {
     return (
       <nav className="toolbar p-2">
-        <button className="btn btn-primary m-2" onClick={this.selectManager}>Character Manager</button>
-        <button className="btn btn-secondary m-2" onClick={this.selectSheet}>Character Sheet</button>
+        <button className={this.renderButtonClassName(Tools.MANAGER)}
+          onClick={this.selectManager}>Character Manager</button>
+        <button className={this.renderButtonClassName(Tools.SHEET)}
+          onClick={this.selectSheet}>Character Sheet</button>
       </nav>
     )
   }
