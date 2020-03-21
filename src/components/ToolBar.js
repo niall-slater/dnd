@@ -36,7 +36,7 @@ class ToolBar extends Component {
         <button className={this.renderButtonClassName(Tools.MANAGER)}
           onClick={this.selectManager}>Character Manager</button>
         <button className={this.renderButtonClassName(Tools.SHEET)}
-          onClick={this.selectSheet}>Character Sheet</button>
+          onClick={this.selectSheet}>Character Sheet (BETA)</button>
       </nav>
     )
   }

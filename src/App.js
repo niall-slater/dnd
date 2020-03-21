@@ -33,7 +33,7 @@ export default class App extends React.Component {
         savedCharacters: this.state.savedCharacters,
         activeCharacter: this.state.savedCharacters[0],
         loading: false,
-        currentTool: Tools.SHEET
+        currentTool: Tools.MANAGER
       };
       return;
     }
