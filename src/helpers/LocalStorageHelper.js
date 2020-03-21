@@ -15,6 +15,9 @@ export default class LocalStorageHelper {
 
   static Load(index) {
     var data = localStorage.getItem(index);
+    if (data === null) {
+      return [];
+    }
     return JSON.parse(data);
   }
 }
