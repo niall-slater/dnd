@@ -2,8 +2,6 @@ export default class StatHelper {
 
   static GetSpellcastingAbilityModifier(character) {
     var spellModifier = character.proficiencyBonus;
-    console.log(spellModifier);
-
     switch (character.class.name) {
       case "Ranger": spellModifier += character.stats.wisModifier; break;
       case "Druid": spellModifier += character.stats.wisModifier; break;

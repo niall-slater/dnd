@@ -63,8 +63,8 @@ class CharacterSheet extends React.Component{
     return(
       <div className="row">
       <div className="col-6">
-        <p><Stat name="SC" value={sc}></Stat></p>
-        <p><Stat name="DC" value={save}></Stat></p>
+        <div><Stat name="SC" value={sc} tooltipContent="Your spellcasting ability modifier"></Stat></div>
+        <div><Stat name="DC" value={save} tooltipContent="The difficulty of a saving throw against one of your spells"></Stat></div>
         <br />
       </div>
         <div className="col-6">
