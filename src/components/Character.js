@@ -98,9 +98,11 @@ class Character extends React.Component{
   renderAttributes = () => {
     var stats = [];
     this.state.stats.forEach(stat => {
-      stats.push(<StatWithSubvalue
-          key={uuid.v4()}
-          stat={stat}/>)
+      if (!stat.name.includes('MODIFIER')) {
+        stats.push(<StatWithSubvalue
+            key={uuid.v4()}
+            stat={stat}/>)
+      }
     });
     return stats;
   }

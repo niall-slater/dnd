@@ -17,8 +17,4 @@ export default class DiceHelper {
   static RollSavingThrow(modifier) {
     return this.RollDie(20) + modifier;
   }
-
-  static GetModifier(stat) {
-    return Math.floor((stat - 10) / 2);
-  }
 }

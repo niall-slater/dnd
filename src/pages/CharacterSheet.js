@@ -2,6 +2,7 @@ import React from 'react';
 import Stat from '../components/Stat';
 import StatLongText from '../components/StatLongText';
 import RollGroup from '../components/dice/RollGroup';
+import StatHelper from '../helpers/StatHelper';
 
 class CharacterSheet extends React.Component{
 
@@ -19,8 +20,10 @@ class CharacterSheet extends React.Component{
     var character = this.state.activeCharacter;
     return (
       <div className="row">
-        <h1>{character.name}</h1>
-        <p className="ml-1">Lvl.{character.level} {character.race.name} {character.class.name}</p>
+        <div className="col">
+          <h1>{character.name}</h1>
+          <p className="ml-1">Lvl.{character.level} {character.race.name} {character.class.name}</p>
+        </div>
       </div>
     );
   }
@@ -55,13 +58,18 @@ class CharacterSheet extends React.Component{
 
   renderSpells = () =>  {
     var character = this.state.activeCharacter;
+    var sc = StatHelper.GetSpellcastingAbilityModifier(character);
+    var save = 8 + sc;
     return(
       <div className="row">
       <div className="col-6">
-        <button className="btn btn-primary btn-large">Cast a spell</button>
+        <p><Stat name="SC" value={sc}></Stat></p>
+        <p><Stat name="DC" value={save}></Stat></p>
+        <br />
       </div>
         <div className="col-6">
-          <small className="text-muted">Spell slots coming soon</small>
+        <button className="btn btn-primary btn-large" disabled>Cast a spell</button>
+        <p className="text-muted">Spell slots coming soon</p>
         </div>
       </div>
     );

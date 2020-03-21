@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Stats } from '../../globals/Stats.Const';
 import DiceHelper from '../../helpers/DiceHelper';
 import RollButton from './RollButton';
+import StatHelper from '../../helpers/StatHelper';
 
 class RollMenuSave extends Component {
 
@@ -17,7 +18,7 @@ class RollMenuSave extends Component {
 
   roll = () => {
     var ability = this.state.activeAbility;
-    var modifier = DiceHelper.GetModifier(this.props.character.stats[ability]);
+    var modifier = StatHelper.GetModifier(this.props.character.stats[ability]);
     var sign = " ";
     if (modifier >= 0)
       sign = " +";
@@ -41,7 +42,7 @@ class RollMenuSave extends Component {
     return (
       <div className="rollMenu">
         <p>Select your saving throw and roll!</p>
-        <div className="btn-group">
+        <div className="btn-group save">
           <button className="btn btn-secondary" onClick={()=>{this.selectAbility(Stats.ABILITY.STR)}}>STR</button>
           <button className="btn btn-secondary" onClick={()=>{this.selectAbility(Stats.ABILITY.DEX)}}>DEX</button>
           <button className="btn btn-secondary" onClick={()=>{this.selectAbility(Stats.ABILITY.CON)}}>CON</button>

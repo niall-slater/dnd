@@ -60,18 +60,22 @@ class RollGroup extends Component {
     var activeMenu = this.renderActiveMenu();
 
     return (
-      <div className="row">
-        <div className="btn-group rollGroup">
-          <button className="btn btn-primary" 
-            onClick={this.onClickSave}>Saving throw</button>
-          <button className="btn btn-secondary" 
-            onClick={this.onClickSkill}>Skill check</button>
-          <button className="btn btn-primary" 
-            onClick={this.onClickAttack}>Attack roll</button>
-          <button className="btn btn-secondary" 
-            onClick={this.onClickRegular}>Regular dice roll</button>
+      <div>
+        <div className="row">
+          <div className="btn-group rollGroup col">
+            <button className="btn btn-secondary" 
+              onClick={this.onClickSave}>Saving throw</button>
+            <button className="btn btn-secondary" 
+              onClick={this.onClickSkill}>Skill check</button>
+            <button className="btn btn-secondary" 
+              onClick={this.onClickAttack}>Attack roll</button>
+            <button className="btn btn-secondary" 
+              onClick={this.onClickRegular}>Regular dice roll</button>
+          </div>
         </div>
-        {activeMenu}
+        <div className="row">
+          {activeMenu}
+        </div>
       </div>
     );
   }

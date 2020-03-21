@@ -10,19 +10,17 @@ class CharacterManager extends React.Component{
     super(props);
 
     var savedCharacters = this.loadSavedCharacters();
-    var activeCharacter = savedCharacters[0];
+    var activeCharacter = this.props.activeCharacter;
 
     this.state = {
       savedCharacters: savedCharacters,
       activeCharacter: activeCharacter
     };
-
-    this.props.setActiveCharacter(activeCharacter);
   }
 
   loadSavedCharacters = () => {
     var loadedData = LocalStorageHelper.Load(StorageKeys.SAVED_CHARACTERS);
-    if (loadedData === null || !loadedData)
+    if (loadedData.length === 0 || !loadedData)
     {
       return [];
     }
@@ -63,6 +61,7 @@ class CharacterManager extends React.Component{
 
   selectCharacter = (character) => {
     this.setState({activeCharacter: character});
+    this.props.setActiveCharacter(character);
   }
 
   clearCharacters = () => {

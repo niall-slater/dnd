@@ -1,20 +1,21 @@
 .skills {
   display: flex;
   flex-flow: row wrap;
+  font-size: 16px;
+  justify-content: flex-start;
 
   .skill {
-    margin: 8px;
-    flex-basis: 10%;
-    flex-grow: 1;
+    margin: 8px 2px;
 
     .stat {
       .stat-value {
-        font-size: 14px;
+        font-size: 18px;
       }
     }
 
     &.proficient {
       .stat-value {
+        background: $primary-black;
         border-radius: 100%;
         border: 1px solid $primary-highlight;
         color: $primary-highlight;

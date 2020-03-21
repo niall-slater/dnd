@@ -7,6 +7,15 @@
   padding: 12px 4px;
   width: 100%;
 
+  .options {
+    font-size: 12px;
+
+    input {
+      font-size: 18px;
+      margin: 4px;
+    }
+  }
+
   .btn-group {
 
     .btn {
@@ -15,6 +24,15 @@
 
     &.skills {
       display: flex;
+      flex-flow: row wrap;
+    }
+    &.save {
+      display: flex;
+      flex-flow: row wrap;
+    }
+    &.attack {
+      display: flex;
+      flex-flow: row wrap;
     }
   }
 
@@ -31,5 +49,12 @@
       color: $primary-highlight;
       font-weight: bold;
     }
+  }
+}
+
+.rollGroup {
+  .btn {
+    font-size: 18px;
+    margin: 4px;
   }
 }

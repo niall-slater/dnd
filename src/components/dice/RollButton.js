@@ -17,6 +17,7 @@ class RollButton extends Component {
     var rollResult = this.roll();
     this.setState({result: rollResult});
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.label !== this.props.label) {
       this.setState({result: this.defaultValue});

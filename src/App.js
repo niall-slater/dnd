@@ -28,8 +28,15 @@ export default class App extends React.Component {
   }
 
   async checkForSavedCharacters() {
-    if (this.state.savedCharacters.length > 0)
+    if (this.state.savedCharacters.length > 0) {
+      this.state = {
+        savedCharacters: this.state.savedCharacters,
+        activeCharacter: this.state.savedCharacters[0],
+        loading: false,
+        currentTool: Tools.SHEET
+      };
       return;
+    }
 
     const response = await fetch(Environment.API_LOCATION + 'character/generate')
     const json = await response.json();
@@ -55,8 +62,13 @@ export default class App extends React.Component {
 
   renderTool = () => {
     switch (this.state.currentTool) {
-      case Tools.MANAGER: return <CharacterManager setActiveCharacter={this.setActiveCharacter} />;
-      case Tools.SHEET: return <CharacterSheet character={this.state.activeCharacter} />;
+      case Tools.MANAGER: return <CharacterManager 
+                                    activeCharacter={this.state.activeCharacter} 
+                                    setActiveCharacter={this.setActiveCharacter}
+                                  />;
+      case Tools.SHEET: return <CharacterSheet
+                                  character={this.state.activeCharacter}
+                                />;
       default: ;
     }
   }
