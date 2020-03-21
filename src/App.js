@@ -21,7 +21,7 @@ export default class App extends React.Component {
       loading: true,
       savedCharacters: savedCharacters,
       activeCharacter: null,
-      currentTool: Tools.SHEET
+      currentTool: Tools.MANAGER
     };
 
     this.checkForSavedCharacters();
