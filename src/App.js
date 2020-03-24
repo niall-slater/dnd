@@ -93,10 +93,10 @@ export default class App extends React.Component {
     
     return (
       <div className="App">
-      <h2 className="display-4 pt-3">Critical Assist</h2>
-      <p className="text lead">Your RPG assistant <span className="text-muted">| A work-in-progress v{version}</span></p>
-      <ToolBar selectTool={this.selectTool} currentTool={this.state.currentTool} />
-      {currentTool}
+        <h2 className="display-4 pt-3">Critical Assist</h2>
+        <p className="text lead">Your RPG assistant <span className="text-muted">| A work-in-progress v{version}</span></p>
+        <ToolBar selectTool={this.selectTool} currentTool={this.state.currentTool} />
+        {currentTool}
       </div>
     );
   }

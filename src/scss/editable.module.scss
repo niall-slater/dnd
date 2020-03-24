@@ -1,7 +1,28 @@
 .editable {
-    color: $primary-text-darker;
-    text-decoration: underline;
-    text-decoration-style: dashed;
-    text-decoration-color: $primary-accent;
-    text-decoration-thickness: 1px;
+  color: $primary-text-darker;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: $primary-accent;
+  text-decoration-thickness: 1px;
+}
+
+.increment {
+  border: 1px solid $primary-accent;
+  display: flex;
+  flex-flow: row;
+
+  .increment-button {
+    background: $primary-navy;
+    color: $primary-text;
+    cursor: pointer;
+    flex-basis: 20%;
+    padding: 0 8px;
+    text-align: center;
+    transition: .1s ease;
+  }
+
+  .increment-button:hover {
+    background: $primary-accent;
+    color: $primary-black;
+  }
 }

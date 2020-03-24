@@ -31,10 +31,10 @@ class StatWithSubvalue extends Component {
     } else {
       return (
         <div className="increment">
-          <div className="btn btn-secondary" 
-          onClick={() => {this.onValueChanged(this.state.stat.value + 1)}}>+</div>
-          <div className="btn btn-secondary" 
+          <div className="increment-button" 
           onClick={() => {this.onValueChanged(this.state.stat.value - 1)}}>-</div>
+          <div className="increment-button" 
+          onClick={() => {this.onValueChanged(this.state.stat.value + 1)}}>+</div>
         </div>
       );
     }
