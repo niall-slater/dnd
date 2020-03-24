@@ -78,26 +78,26 @@ class CharacterManager extends React.Component{
   }
 
   render() {
-      return(
-          <div className={`container toolBox ${this.state.loading ? "loading" : ""}`}>
-            <h3 className="text-muted">Character Manager</h3>
-            
-            <CharacterList
-              onClickOnCharacterCard={this.selectCharacter}
-              savedCharacters={this.state.savedCharacters}
-              clearCharacters={this.clearCharacters}
-            />
+    return(
+        <div className={`container toolBox ${this.state.loading ? "loading" : ""}`}>
+          <h3 className="text-muted">Character Manager</h3>
+          
+          <CharacterList
+            onClickOnCharacterCard={this.selectCharacter}
+            savedCharacters={this.state.savedCharacters}
+            clearCharacters={this.clearCharacters}
+          />
 
-            <br />
+          <br />
 
-            <Character
-              character={this.state.activeCharacter}
-              onSaveCharacter={this.saveCharacter}
-              onLoadStart={this.onLoadStart}
-              onLoadEnd={this.onLoadEnd}
-            />
-          </div>
-      );
+          <Character
+            character={this.state.activeCharacter}
+            onSaveCharacter={this.saveCharacter}
+            onLoadStart={this.onLoadStart}
+            onLoadEnd={this.onLoadEnd}
+          />
+        </div>
+    );
   }
 }
 

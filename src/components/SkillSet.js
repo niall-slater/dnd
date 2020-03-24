@@ -15,9 +15,12 @@ class SkillSet extends React.Component {
     keys.forEach(key => {
       var skill = skillSet[key];
 
-      //TODO: bug where this is called again on save - once fixed remove the second condition here
+      //TODO: bug where this is called again on save - once fixed remove the second condition in this if statement
       if (skill.modifier >= 0 && skill.modifier[0] !== "+")
         skill.modifier = "+" + skill.modifier;
+
+      //TODO: duplicate server side logic for recalculating skill proficiencies here? or make an API call? if we're
+      //      allowing people to edit characters locally it needs to work properly
 
       var element = <div className="skill" key={key}><StatLongText name={key} value={skill.modifier} /></div>;
 

@@ -7,6 +7,7 @@ import SkillSet from './SkillSet';
 import uuid from 'uuid';
 import { Environment } from '../globals/Environment.Const';
 import { Mocks } from '../globals/Mocks.Const';
+import StatHelper from '../helpers/StatHelper';
 
 class Character extends React.Component{
 
@@ -24,7 +25,8 @@ class Character extends React.Component{
       this.setState({
         isLoaded: true,
         character: character,
-        stats: stats
+        stats: stats,
+        editMode: false
       });
     }
   }
@@ -77,12 +79,12 @@ class Character extends React.Component{
     var stats = [];
     for (var stat in character.stats)
     {
-      var statName = stat;
+      var nameOfStat = stat;
       var statValue = character.stats[stat];
       var subValue = Math.floor((statValue - 10) / 2);
 
       var formattedStat = {
-        name: statName.toUpperCase(),
+        statName: nameOfStat.toUpperCase(),
         value: statValue,
         subValue: subValue
       };
@@ -95,13 +97,44 @@ class Character extends React.Component{
     this.props.onSaveCharacter(character);
   }
 
+  onStatChange = (changedStat) => {
+    for (var i = 0; i < this.state.stats.length; i++)
+    {
+      var stat = this.state.stats[i];
+      if (stat.statName == changedStat.statName) {
+        stat = changedStat;
+        break;
+      }
+    }
+
+    //TODO: update character.skillSet with new modifiers
+
+    this.updateCharacterStats(this.state.stats);
+  }
+
+  updateCharacterStats = (newStats) => {
+    var updatedCharacter = this.state.character;
+    var oldStats = updatedCharacter.stats;
+    newStats.forEach((newStat) => {
+      oldStats[newStat.statName.toLowerCase()] = newStat.value;
+      oldStats[newStat.statName.toLowerCase() + "Modifier"] = StatHelper.GetModifier(newStat.value);
+    });
+
+    this.setState({character: updatedCharacter});
+
+    this.onSave(updatedCharacter);
+  }
+
   renderAttributes = () => {
     var stats = [];
     this.state.stats.forEach(stat => {
-      if (!stat.name.includes('MODIFIER')) {
+      if (!stat.statName.includes('MODIFIER')) {
         stats.push(<StatWithSubvalue
             key={uuid.v4()}
-            stat={stat}/>)
+            stat={stat}
+            editMode={this.state.editMode}
+            onChange={this.onStatChange}
+        />)
       }
     });
     return stats;
@@ -109,9 +142,13 @@ class Character extends React.Component{
 
   renderName = () => {
     var character = this.state.character;
+    var nameField = <h2>{this.state.character.name}</h2>;
+    if (this.state.editMode) {
+      nameField = <NameField name={this.state.character.name} onChange={this.onEditName} />;
+    }
     return (
       <div className="container">
-        <NameField name={this.state.character.name} onChange={this.onEditName} />
+        {nameField}
         <p className="ml-1">{character.race.name} {character.class.name}</p>
       </div>
     );
@@ -148,12 +185,26 @@ class Character extends React.Component{
     this.onSave(newChar);
   }
 
+  renderEditButton = () => {
+    if (!this.state.editMode) {
+      return <button className="btn btn-secondary"
+      onClick={() => {this.setState({editMode: true});}}>Edit character</button>
+    }
+    else {
+      return <button className="btn btn-primary"
+      onClick={() => {this.setState({editMode: false});}}>Stop editing</button>
+    }
+  }
+
   render() {
     let stats = this.renderStats();
     let attributes = this.renderAttributes();
     let name = this.renderName();
+    let editButton = this.renderEditButton();
+
     return (
       <div className="container">
+        {editButton}
         <div className="row mt-2 ml-1">
             {name}
         </div>

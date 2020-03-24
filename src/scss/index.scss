@@ -6,8 +6,9 @@ $body-bg: #000;
 // Import custom modules
 @import './variables.scss';
 @import './dice.module.scss';
-@import './stats.module.scss';
+@import './editable.module.scss';
 @import './skills.module.scss';
+@import './stats.module.scss';
 @import './toolbar.module.scss';
 @import './tooltip.module.scss';
 

@@ -38,6 +38,7 @@ class NameField extends EditableText {
             html={this.state.html}
             onChange={this.handleChange}
             tagName='h2'
+            className="editable"
           />
     );
   };
