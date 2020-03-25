@@ -13,7 +13,7 @@ class StatWithSubvalue extends Component {
   }
 
   onValueChanged = (value) => {
-    var newStat = this.state.stat;
+    var newStat = Object.assign(this.state.stat);
 
     newStat.value = value;
     newStat.subValue = StatHelper.GetModifier(newStat.value);
@@ -50,7 +50,7 @@ class StatWithSubvalue extends Component {
       <div className="stat">
         {increment}
         <div className="stat-label">
-          <span>{this.state.stat.statName}</span>
+          <span>{this.state.stat.statName.toUpperCase()}</span>
         </div>
         <div className="stat-value">
           <span>{this.state.stat.value}</span>

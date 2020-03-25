@@ -13,6 +13,13 @@ class Character extends React.Component{
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isLoaded: false,
+      character: null,
+      stats: [],
+      editMode: false
+    };
   }
 
   componentWillMount() {
@@ -53,7 +60,7 @@ class Character extends React.Component{
     this.setState({
       isLoaded: false,
       character: Mocks.character,
-      stats: this.formatStats(Mocks.character)
+      stats: []
     });
 
     fetch(Environment.API_LOCATION + 'character/generate')
@@ -76,34 +83,39 @@ class Character extends React.Component{
   }
 
   formatStats = (character) => {
-    var stats = [];
-    for (var stat in character.stats)
-    {
-      var nameOfStat = stat;
-      var statValue = character.stats[stat];
-      var subValue = Math.floor((statValue - 10) / 2);
+    var result = [];
 
-      var formattedStat = {
-        statName: nameOfStat.toUpperCase(),
-        value: statValue,
-        subValue: subValue
-      };
-      stats.push(formattedStat);
-    }
-    return stats;
+    var keys = Object.keys(character.stats);
+
+    keys.forEach(key => {
+      // Drop modifiers, only store ability scores
+      if (key.length === 3) {
+        var statValue = character.stats[key];
+        var subValue = Math.floor((statValue - 10) / 2);
+  
+        var formattedStat = {
+          statName: key,
+          value: statValue,
+          subValue: subValue
+        };
+        result.push(formattedStat);
+      }
+    });
+    return result;
   }
 
   onSave = (character) => {
     this.props.onSaveCharacter(character);
   }
 
+  // Takes a changed ability score and updates the character
   onStatChange = (changedStat) => {
-    var newStats = this.state.stats;
+    var newStats = Object.assign(this.state.stats);
 
     for (var i = 0; i < newStats.length; i++)
     {
       var stat = newStats[i];
-      if (stat.statName == changedStat.statName) {
+      if (stat.statName === changedStat.statName) {
         stat = changedStat;
         break;
       }
@@ -113,27 +125,22 @@ class Character extends React.Component{
   }
 
   updateCharacterStats = (newStats) => {
-    var updatedCharacter = this.state.character;
-
+    var updatedCharacter = Object.assign(this.state.character);
     // Update ability scores
-    var oldStats = updatedCharacter.stats;
     newStats.forEach((newStat) => {
-      oldStats[newStat.statName.toLowerCase()] = newStat.value;
-      oldStats[newStat.statName.toLowerCase() + "Modifier"] = StatHelper.GetModifier(newStat.value);
+      updatedCharacter.stats[newStat.statName] = newStat.value;
     });
 
-    updatedCharacter.proficiencyBonus = (1 + Math.ceil(updatedCharacter.Level / 4));
+    updatedCharacter.proficiencyBonus = (1 + Math.ceil(updatedCharacter.level / 4));
 
     // Update skills
-    var newSkills = updatedCharacter.skillSet;
+    var newSkills = Object.assign(updatedCharacter.skillSet);
     
     var keys = Object.keys(newSkills);
-    console.log(newSkills);
 
     keys.forEach(key => {
       var skillToUpdate = newSkills[key];
-      console.log(skillToUpdate);
-      skillToUpdate.modifier = StatHelper.GetModifier(skillToUpdate.name, updatedCharacter);
+      skillToUpdate.modifier = StatHelper.GetAssociatedModifier(key, updatedCharacter);
       if (skillToUpdate.proficient)
         skillToUpdate.modifier += updatedCharacter.proficiencyBonus;
     });
@@ -146,14 +153,12 @@ class Character extends React.Component{
   renderAttributes = () => {
     var stats = [];
     this.state.stats.forEach(stat => {
-      if (!stat.statName.includes('MODIFIER')) {
-        stats.push(<StatWithSubvalue
-            key={uuid.v4()}
-            stat={stat}
-            editMode={this.state.editMode}
-            onChange={this.onStatChange}
-        />)
-      }
+      stats.push(<StatWithSubvalue
+          key={uuid.v4()}
+          stat={stat}
+          editMode={this.state.editMode}
+          onChange={this.onStatChange}
+      />)
     });
     return stats;
   }

@@ -58,7 +58,7 @@ class RollMenuAttack extends Component {
   }
 
   getMeleeModifier = () => {
-    var modifier = this.stats.strModifier;
+    var modifier = StatHelper.GetModifier(this.stats.str);
     if (this.state.proficient)
       modifier += this.proficiencyBonus;
 
@@ -66,7 +66,7 @@ class RollMenuAttack extends Component {
   }
 
   getFinesseModifier = () => {
-    var modifier = this.stats.dexModifier;
+    var modifier = StatHelper.GetModifier(this.stats.dex);
     if (this.state.proficient)
       modifier += this.proficiencyBonus;
 
@@ -74,11 +74,11 @@ class RollMenuAttack extends Component {
   }
 
   getUnarmedModifier = () => {
-    return this.stats.strModifier + this.proficiencyBonus;
+    return StatHelper.GetModifier(this.stats.str) + this.proficiencyBonus;
   }
 
   getRangedModifier = () => {
-    var modifier = this.stats.dexModifier;
+    var modifier = StatHelper.GetModifier(this.stats.dex);;
     if (this.state.proficient)
       modifier += this.proficiencyBonus;
 

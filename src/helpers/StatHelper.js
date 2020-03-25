@@ -25,32 +25,32 @@ export default class StatHelper {
 
   static GetAssociatedModifier(skillName, character)
   {
-      if (skillName == Stats.SKILL.ATHLETICS)
+      if (skillName === Stats.SKILL.ATHLETICS)
       {
-          return character.stats.strModifier;
+          return this.GetModifier(character.stats.str);
       }
 
-      if (skillName == Stats.SKILL.ACROBATICS || skillName == Stats.SKILL.SLEIGHTOFHAND || skillName == Stats.SKILL.STEALTH)
+      if (skillName === Stats.SKILL.ACROBATICS || skillName === Stats.SKILL.SLEIGHTOFHAND || skillName === Stats.SKILL.STEALTH)
       {
-          return character.stats.dexModifier;
+          return this.GetModifier(character.stats.dex);
       }
 
-      if (skillName == Stats.SKILL.ARCANA || skillName == Stats.SKILL.HISTORY || skillName == Stats.SKILL.INVESTIGATION
-          || skillName == Stats.SKILL.NATURE || skillName == Stats.SKILL.RELIGION)
+      if (skillName === Stats.SKILL.ARCANA || skillName === Stats.SKILL.HISTORY || skillName === Stats.SKILL.INVESTIGATION
+          || skillName === Stats.SKILL.NATURE || skillName === Stats.SKILL.RELIGION)
       {
-          return character.stats.intModifier;
+          return this.GetModifier(character.stats.int);
       }
 
-      if (skillName == Stats.SKILL.ANIMALHANDLING || skillName == Stats.SKILL.INSIGHT || skillName == Stats.SKILL.MEDICINE
-          || skillName == Stats.SKILL.PERCEPTION || skillName == Stats.SKILL.SURVIVAL)
+      if (skillName === Stats.SKILL.ANIMALHANDLING || skillName === Stats.SKILL.INSIGHT || skillName === Stats.SKILL.MEDICINE
+          || skillName === Stats.SKILL.PERCEPTION || skillName === Stats.SKILL.SURVIVAL)
       {
-          return character.stats.wisModifier;
+          return this.GetModifier(character.stats.wis);
       }
 
-      if (skillName == Stats.SKILL.DECEPTION || skillName == Stats.SKILL.INTIMIDATION || skillName == Stats.SKILL.PERFORMANCE
-          || skillName == Stats.SKILL.PERSUASION)
+      if (skillName === Stats.SKILL.DECEPTION || skillName === Stats.SKILL.INTIMIDATION || skillName === Stats.SKILL.PERFORMANCE
+          || skillName === Stats.SKILL.PERSUASION)
       {
-          return character.stats.chaModifier;
+          return this.GetModifier(character.stats.cha)
       }
 
       return 0;

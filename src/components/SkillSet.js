@@ -12,8 +12,7 @@ class SkillSet extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.skills !== prevProps.skills)
-    {
+    if (this.props.skills !== prevProps.skills) {
       this.setState({skills: this.props.skills});
     }
   }
@@ -27,13 +26,14 @@ class SkillSet extends React.Component {
     keys.forEach(key => {
       var skill = Object.assign(skillSet[key]);
 
+      var prefix = "";
+
       if (skill.modifier >= 0)
-        skill.modifier = "+" + skill.modifier;
+        prefix = "+";
 
-      var element = <div className="skill" key={key}><StatLongText name={key} value={skill.modifier} /></div>;
+      var style = skill.proficient ? "skill proficient" : "skill";
 
-      if (skill.proficient)
-        element = <div className="skill proficient" key={key}><StatLongText name={key} value={skill.modifier} /></div>;
+      var element = <div className={style} key={key}><StatLongText name={key} value={prefix + skill.modifier} /></div>;
 
       skillsArray.push(element);
     });

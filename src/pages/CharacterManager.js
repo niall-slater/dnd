@@ -31,7 +31,7 @@ class CharacterManager extends React.Component{
     var currentCharacters = this.loadSavedCharacters();
 
     // Update the list with any changes made to the characters
-    var newList = currentCharacters;
+    var newList = Object.assign(currentCharacters);
     var conflict = false;
 
     if (currentCharacters) {
