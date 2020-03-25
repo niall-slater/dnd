@@ -5,22 +5,30 @@ class SkillSet extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      skills: props.skills
+    }
   }
 
-  renderSkills = (skillSet) => {
-    var skillsArray = [];
+  componentDidUpdate(prevProps) {
+    if(this.props.skills !== prevProps.skills)
+    {
+      this.setState({skills: this.props.skills});
+    }
+  }
 
-    var keys = Object.keys(skillSet);
+  renderSkills = () => {
+    var skillsArray = [];
+    var skillSet = this.state.skills;
+
+    var keys = Object.keys(Object.assign(skillSet));
 
     keys.forEach(key => {
-      var skill = skillSet[key];
+      var skill = Object.assign(skillSet[key]);
 
-      //TODO: bug where this is called again on save - once fixed remove the second condition in this if statement
-      if (skill.modifier >= 0 && skill.modifier[0] !== "+")
+      if (skill.modifier >= 0)
         skill.modifier = "+" + skill.modifier;
-
-      //TODO: duplicate server side logic for recalculating skill proficiencies here? or make an API call? if we're
-      //      allowing people to edit characters locally it needs to work properly
 
       var element = <div className="skill" key={key}><StatLongText name={key} value={skill.modifier} /></div>;
 
@@ -35,10 +43,10 @@ class SkillSet extends React.Component {
 
 
   render() {
-    if (!this.props.skills)
+    if (!this.state.skills)
       return null;
 
-    var skills = this.renderSkills(this.props.skills);
+    var skills = this.renderSkills();
 
     return(
       <div className="skills">

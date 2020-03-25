@@ -98,26 +98,44 @@ class Character extends React.Component{
   }
 
   onStatChange = (changedStat) => {
-    for (var i = 0; i < this.state.stats.length; i++)
+    var newStats = this.state.stats;
+
+    for (var i = 0; i < newStats.length; i++)
     {
-      var stat = this.state.stats[i];
+      var stat = newStats[i];
       if (stat.statName == changedStat.statName) {
         stat = changedStat;
         break;
       }
     }
 
-    //TODO: update character.skillSet with new modifiers
-
-    this.updateCharacterStats(this.state.stats);
+    this.updateCharacterStats(newStats);
   }
 
   updateCharacterStats = (newStats) => {
     var updatedCharacter = this.state.character;
+
+    // Update ability scores
     var oldStats = updatedCharacter.stats;
     newStats.forEach((newStat) => {
       oldStats[newStat.statName.toLowerCase()] = newStat.value;
       oldStats[newStat.statName.toLowerCase() + "Modifier"] = StatHelper.GetModifier(newStat.value);
+    });
+
+    updatedCharacter.proficiencyBonus = (1 + Math.ceil(updatedCharacter.Level / 4));
+
+    // Update skills
+    var newSkills = updatedCharacter.skillSet;
+    
+    var keys = Object.keys(newSkills);
+    console.log(newSkills);
+
+    keys.forEach(key => {
+      var skillToUpdate = newSkills[key];
+      console.log(skillToUpdate);
+      skillToUpdate.modifier = StatHelper.GetModifier(skillToUpdate.name, updatedCharacter);
+      if (skillToUpdate.proficient)
+        skillToUpdate.modifier += updatedCharacter.proficiencyBonus;
     });
 
     this.setState({character: updatedCharacter});
