@@ -23,7 +23,7 @@ const stats = {
     PERFORMANCE: "Performance",
     PERSUASION: "Persuasion",
     RELIGION: "Religion",
-    SLEIGHTOFHAND: "Sleight Of Hand",
+    SLEIGHTOFHAND: "Sleight of Hand",
     STEALTH: "Stealth",
     SURVIVAL: "Survival"
   }

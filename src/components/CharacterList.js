@@ -39,11 +39,10 @@ class CharacterList extends React.Component{
       return(
           <div className="container mt-3">
             <h3>Saved characters</h3>
+            <button className="btn btn-secondary" onClick={this.clearCharacters}>Clear characters</button>
             <div className="characterList">
               {characterCards}
             </div>
-            <br />
-            <button className="btn btn-secondary" onClick={this.clearCharacters}>Clear characters</button>
           </div>
       );
   }

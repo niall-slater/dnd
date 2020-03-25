@@ -49,8 +49,11 @@ class SkillSet extends React.Component {
     var skills = this.renderSkills();
 
     return(
-      <div className="skills">
-        {skills}
+      <div>
+        <h3>Skills</h3>
+        <div className="skills">
+          {skills}
+        </div>
       </div>
     );
   }

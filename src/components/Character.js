@@ -145,6 +145,9 @@ class Character extends React.Component{
         skillToUpdate.modifier += updatedCharacter.proficiencyBonus;
     });
 
+    // Update base AC
+    updatedCharacter.ac = 10 + StatHelper.GetModifier(updatedCharacter.stats.dex);
+
     this.setState({character: updatedCharacter});
 
     this.onSave(updatedCharacter);
@@ -210,11 +213,11 @@ class Character extends React.Component{
 
   renderEditButton = () => {
     if (!this.state.editMode) {
-      return <button className="btn btn-secondary"
-      onClick={() => {this.setState({editMode: true});}}>Edit character</button>
+      return <button className="btn btn-secondary m-2"
+      onClick={() => {this.setState({editMode: true});}}>Edit this character</button>
     }
     else {
-      return <button className="btn btn-primary"
+      return <button className="btn btn-primary m-2"
       onClick={() => {this.setState({editMode: false});}}>Stop editing</button>
     }
   }
@@ -227,15 +230,14 @@ class Character extends React.Component{
 
     return (
       <div className="container">
-        {editButton}
         <div className="row mt-2 ml-1">
             {name}
         </div>
         <div className="row">
-          <div className="col col-8">
+          <div className="col col-7">
             {stats}
           </div>
-          <div className="col col-3 mr-1">
+          <div className="col col-4 mr-1">
             {attributes}
           </div>
         </div>
@@ -244,9 +246,11 @@ class Character extends React.Component{
             <SkillSet skills={this.state.character.skillSet} />
           </div>
         </div>
-        <button className="btn btn-primary mt-3" onClick={this.regenerate}>Generate a new Lv1 character</button>
-        <br />
-        <button className="btn btn-secondary mt-3" onClick={() => this.onSave(this.state.character)}>Save this character</button>
+        <div className="btn-group p-2">
+          <button className="btn btn-primary m-2" onClick={this.regenerate}>Generate a new Lv1 character</button>
+          <button className="btn btn-secondary m-2" onClick={() => this.onSave(this.state.character)}>Save this character</button>
+          {editButton}
+        </div>
       </div>
     );
   }
