@@ -8,7 +8,7 @@ import CharacterManager from './pages/CharacterManager';
 import CharacterSheet from './pages/CharacterSheet';
 import LocalStorageHelper from './helpers/LocalStorageHelper';
 
-const version = 0.12;
+const version = 0.13;
 
 export default class App extends React.Component {
 

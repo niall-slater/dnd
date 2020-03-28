@@ -19,8 +19,6 @@ class RollMenuSkill extends Component {
   roll = () => {
     var skill = this.state.activeSkill;
     var modifier = parseInt(skill.modifier) + parseInt(skill.bonusModifier);
-    if (skill.proficient)
-      modifier += this.props.character.proficiencyBonus;
 
     var sign = " ";
     if (modifier >= 0)
