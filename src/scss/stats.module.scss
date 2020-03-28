@@ -29,7 +29,14 @@
       
       &.longtext {
         display: inline;
+        cursor: default;
         padding: 4px;
+        user-select: none;
+
+        &.editMode {
+          border: 0.5px dashed $primary-accent;
+          cursor: pointer;
+        }
 
         .stat-label {
           font-weight: normal;

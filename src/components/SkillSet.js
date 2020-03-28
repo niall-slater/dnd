@@ -17,6 +17,25 @@ class SkillSet extends React.Component {
     }
   }
 
+  handleClick = (skillName) => {
+    if (!this.props.editMode)
+      return;
+
+    var updatedSkills = Object.assign(this.state.skills);
+
+    var keys = Object.keys(updatedSkills);
+
+    keys.forEach(key => {
+      var skill = Object.assign(updatedSkills[key]);
+      if (key === skillName) {
+        skill.proficient = !skill.proficient;
+        this.props.onChange(skillName);
+      }
+    });
+
+    this.setState({skills: updatedSkills});
+  };
+
   renderSkills = () => {
     var skillsArray = [];
     var skillSet = this.state.skills;
@@ -33,13 +52,17 @@ class SkillSet extends React.Component {
 
       var style = skill.proficient ? "skill proficient" : "skill";
 
-      var element = <div className={style} key={key}><StatLongText name={key} value={prefix + skill.modifier} /></div>;
+      var element = (
+        <div className={style} key={key}>
+          <StatLongText name={key} value={prefix + skill.modifier} editMode={this.props.editMode} onClick={() => {this.handleClick(key)}} />
+        </div>
+      );
 
       skillsArray.push(element);
     });
 
     return skillsArray;
-  }
+  };
 
 
   render() {

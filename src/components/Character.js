@@ -109,7 +109,7 @@ class Character extends React.Component{
   }
 
   // Takes a changed ability score and updates the character
-  onStatChange = (changedStat) => {
+  handleStatChange = (changedStat) => {
     var newStats = Object.assign(this.state.stats);
 
     for (var i = 0; i < newStats.length; i++)
@@ -121,29 +121,28 @@ class Character extends React.Component{
       }
     }
 
-    this.updateCharacterStats(newStats);
+    this.updateCharacterAbilityScores(newStats);
   }
 
-  updateCharacterStats = (newStats) => {
+  handleSkillChange = () => {
+    var updatedCharacter = Object.assign(this.state.character);
+    updatedCharacter = this.updateCharacterSkills(updatedCharacter);
+
+    this.setState({character: updatedCharacter});
+    this.onSave(updatedCharacter);
+  }
+
+  updateCharacterAbilityScores = (newAbilityScores) => {
     var updatedCharacter = Object.assign(this.state.character);
     // Update ability scores
-    newStats.forEach((newStat) => {
-      updatedCharacter.stats[newStat.statName] = newStat.value;
+    newAbilityScores.forEach((newAbilityScore) => {
+      updatedCharacter.stats[newAbilityScore.statName] = newAbilityScore.value;
     });
 
     updatedCharacter.proficiencyBonus = (1 + Math.ceil(updatedCharacter.level / 4));
 
-    // Update skills
-    var newSkills = Object.assign(updatedCharacter.skillSet);
-    
-    var keys = Object.keys(newSkills);
-
-    keys.forEach(key => {
-      var skillToUpdate = newSkills[key];
-      skillToUpdate.modifier = StatHelper.GetAssociatedModifier(key, updatedCharacter);
-      if (skillToUpdate.proficient)
-        skillToUpdate.modifier += updatedCharacter.proficiencyBonus;
-    });
+    // Update skills because the ability scores affect them
+    updatedCharacter = this.updateCharacterSkills(updatedCharacter);
 
     // Update base AC
     updatedCharacter.ac = 10 + StatHelper.GetModifier(updatedCharacter.stats.dex);
@@ -153,6 +152,22 @@ class Character extends React.Component{
     this.onSave(updatedCharacter);
   }
 
+  // Update skills in a character object and return the updated object
+  updateCharacterSkills = (characterObjectToUpdate) => {
+    var newSkills = Object.assign(characterObjectToUpdate.skillSet);
+    
+    var keys = Object.keys(newSkills);
+
+    keys.forEach(key => {
+      var skillToUpdate = newSkills[key];
+      skillToUpdate.modifier = StatHelper.GetAssociatedModifier(key, characterObjectToUpdate);
+      if (skillToUpdate.proficient)
+        skillToUpdate.modifier += characterObjectToUpdate.proficiencyBonus;
+    });
+
+    return characterObjectToUpdate;
+  };
+
   renderAttributes = () => {
     var stats = [];
     this.state.stats.forEach(stat => {
@@ -160,7 +175,7 @@ class Character extends React.Component{
           key={uuid.v4()}
           stat={stat}
           editMode={this.state.editMode}
-          onChange={this.onStatChange}
+          onChange={this.handleStatChange}
       />)
     });
     return stats;
@@ -246,7 +261,7 @@ class Character extends React.Component{
         </div>
         <div className="row">
           <div className="col col-12">
-            <SkillSet skills={this.state.character.skillSet} />
+            <SkillSet skills={this.state.character.skillSet} editMode={this.state.editMode} onChange={this.handleSkillChange} />
           </div>
         </div>
         <div className="btn-group p-2">
