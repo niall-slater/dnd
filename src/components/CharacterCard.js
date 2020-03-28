@@ -12,9 +12,12 @@ class CharacterCard extends React.Component {
 
   render() {
     var c = this.props.character;
+    var className = "container characterCard ";
+    if (this.props.highlight)
+      className += "highlight";
 
       return(
-          <div className="container characterCard" onClick={this.handleClick}>
+          <div className={className} onClick={this.handleClick}>
             <h5>{c.name}</h5>
             <h6>Lvl {c.level} {c.race.name} {c.class.name}</h6>
           </div>

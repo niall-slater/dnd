@@ -19,7 +19,8 @@ class CharacterList extends React.Component{
     var cards = [];
 
     chars.forEach(c => {
-      cards.push(<CharacterCard character={c} key={c.id} onClickOnCharacterCard={this.onClickOnCharacterCard} />)
+      var highlight = c.id === this.props.activeCharacter.id;
+      cards.push(<CharacterCard character={c} highlight={highlight} key={c.id} onClickOnCharacterCard={this.onClickOnCharacterCard} />)
     });
 
     return (cards);
@@ -39,10 +40,10 @@ class CharacterList extends React.Component{
       return(
           <div className="container mt-3">
             <h3>Saved characters</h3>
-            <button className="btn btn-secondary" onClick={this.clearCharacters}>Clear characters</button>
             <div className="characterList">
               {characterCards}
             </div>
+            <button className="btn btn-secondary" onClick={this.clearCharacters}>Clear saved characters</button>
           </div>
       );
   }

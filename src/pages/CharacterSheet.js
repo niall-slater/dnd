@@ -63,13 +63,15 @@ class CharacterSheet extends React.Component{
     return(
       <div className="row">
       <div className="col-6">
-        <div><Stat name="SC" value={sc} tooltipContent="Your spellcasting ability modifier"></Stat></div>
-        <div><Stat name="DC" value={save} tooltipContent="The difficulty of a saving throw against one of your spells"></Stat></div>
+        <div><Stat name="SC" value={sc} square={true} tooltipContent="Your spellcasting ability modifier"></Stat></div>
+        <div><Stat name="DC" value={save} square={true} tooltipContent="The difficulty of a saving throw against one of your spells"></Stat></div>
         <br />
       </div>
         <div className="col-6">
+        {/*
         <button className="btn btn-primary btn-large" disabled>Cast a spell</button>
         <p className="text-muted">Spell slots coming soon</p>
+        */}
         </div>
       </div>
     );
@@ -79,10 +81,13 @@ class CharacterSheet extends React.Component{
     var character = this.state.activeCharacter;
     return(
       <div className="row">
+        <p className="text-muted">Rests coming soon!</p>
+        {/*
         <div className="btn-group">
           <button className="btn btn-secondary">Short rest</button>
           <button className="btn btn-primary">Long rest</button>
         </div>
+        */}
       </div>
     );
   }

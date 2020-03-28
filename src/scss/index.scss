@@ -91,6 +91,10 @@ code {
     flex-grow: 1;
     flex-basis: 5%;
     margin: 4px;
+
+    &.highlight {
+      border-color: $primary-highlight;
+    }
   }
 }
 

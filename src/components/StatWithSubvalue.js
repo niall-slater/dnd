@@ -52,7 +52,7 @@ class StatWithSubvalue extends Component {
         <div className="stat-label">
           <span>{this.state.stat.statName.toUpperCase()}</span>
         </div>
-        <div className="stat-value">
+        <div className="stat-value square">
           <span>{this.state.stat.value}</span>
           <sub>{subValue}</sub>
         </div>

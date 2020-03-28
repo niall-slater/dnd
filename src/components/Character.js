@@ -185,12 +185,15 @@ class Character extends React.Component{
     var proficiency = "+" + character.proficiencyBonus;
     var speed = character.speed + "ft";
     var hitDie = "1d" + character.class.hitDie;
+
+    var hp = `${character.hp}/${character.maxHp}`;
+
     return(
       <div className="container">
         <div className="row mb-2 ml-0">
-          <Stat name="Lvl" value={character.level}></Stat>
-          <Stat name="AC" value={character.ac}></Stat>
-          <Stat name="HP" value={character.maxHp}></Stat>
+          <Stat name="Lvl" value={character.level} square={true}></Stat>
+          <Stat name="AC" value={character.ac} square={true}></Stat>
+          <Stat name="HP" value={hp}></Stat>
         </div>
         <div className="bio">
           <p><StatLongText name="Proficiency bonus" value={proficiency}></StatLongText></p>
@@ -234,11 +237,11 @@ class Character extends React.Component{
             {name}
         </div>
         <div className="row">
-          <div className="col col-7">
-            {stats}
-          </div>
-          <div className="col col-4 mr-1">
+          <div className="col col-xs-4 col-sm-3">
             {attributes}
+          </div>
+          <div className="col col-xs-8 col-sm-9">
+            {stats}
           </div>
         </div>
         <div className="row">

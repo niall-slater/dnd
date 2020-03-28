@@ -32,10 +32,15 @@ class Stat extends Component {
 
   render() {
     var tooltip = this.renderTooltip();
+
+    var valueStyle = "stat-value ";
+    if (this.props.square)
+      valueStyle += "square";
+
     return (
       <span className="stat inline" onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <span className="stat-label">{this.props.name}</span>
-        <span className="stat-value">{this.props.value}</span>
+        <span className={valueStyle}>{this.props.value}</span>
         {tooltip}
       </span>
     );

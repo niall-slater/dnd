@@ -86,6 +86,7 @@ class CharacterManager extends React.Component{
             onClickOnCharacterCard={this.selectCharacter}
             savedCharacters={this.state.savedCharacters}
             clearCharacters={this.clearCharacters}
+            activeCharacter ={this.state.activeCharacter}
           />
 
           <br />
