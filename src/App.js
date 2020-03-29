@@ -22,7 +22,7 @@ export default class App extends React.Component {
       loading: true,
       savedCharacters: savedCharacters,
       activeCharacter: null,
-      currentTool: Tools.MANAGER
+      currentTool: Tools.DICE
     };
 
     this.checkForSavedCharacters();
@@ -34,7 +34,7 @@ export default class App extends React.Component {
         savedCharacters: this.state.savedCharacters,
         activeCharacter: this.state.savedCharacters[0],
         loading: false,
-        currentTool: Tools.MANAGER
+        currentTool: Tools.DICE
       };
       return;
     }
