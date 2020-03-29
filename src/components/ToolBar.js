@@ -26,6 +26,10 @@ class ToolBar extends Component {
     this.selectTool(Tools.SHEET);
   }
 
+  selectDice = () => {
+    this.selectTool(Tools.DICE);
+  }
+
   renderButtonClassName = (tool) => {
     return (`btn m-2 ${this.state.currentTool === tool ? "btn-primary active" : "btn-secondary"}`);
   }
@@ -35,8 +39,10 @@ class ToolBar extends Component {
       <nav className="toolbar p-2">
         <button className={this.renderButtonClassName(Tools.MANAGER)}
           onClick={this.selectManager}>Character Manager</button>
-        <button className={this.renderButtonClassName(Tools.SHEET)}
-          onClick={this.selectSheet}>Character Sheet (BETA)</button>
+          <button className={this.renderButtonClassName(Tools.SHEET)}
+            onClick={this.selectSheet}>Character Sheet (TEST)</button>
+            <button className={this.renderButtonClassName(Tools.DICE)}
+              onClick={this.selectDice}>Dice roller (TEST)</button>
       </nav>
     )
   }

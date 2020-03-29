@@ -1,6 +1,7 @@
 const tools = {
   MANAGER: "Manager",
-  SHEET: "Sheet"
+  SHEET: "Sheet",
+  DICE: "Dice"
 };
 
 export const Tools = tools;

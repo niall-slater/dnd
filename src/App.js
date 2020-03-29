@@ -7,6 +7,7 @@ import ToolBar from './components/ToolBar';
 import CharacterManager from './pages/CharacterManager';
 import CharacterSheet from './pages/CharacterSheet';
 import LocalStorageHelper from './helpers/LocalStorageHelper';
+import PhysicsOverlay from './components/dice/PhysicsOverlay';
 
 const version = 0.13;
 
@@ -69,6 +70,7 @@ export default class App extends React.Component {
       case Tools.SHEET: return <CharacterSheet
                                   character={this.state.activeCharacter}
                                 />;
+      case Tools.DICE: return <PhysicsOverlay dice={1} facets={20} />;
       default: ;
     }
   }
