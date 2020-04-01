@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const modelsDirectory = "criticalassist/3d/scaled/";
 
 const loader = new GLTFLoader();
+
+// Graphics
 var renderer;
 var scene;
 var camera;
@@ -13,6 +16,14 @@ var plane;
 var ambientLight;
 var directionalLight;
 var controls;
+
+// Physics
+var world;
+var lastTime;
+var fixedTimeStep = 1.0 / 60.0; // seconds
+var maxSubSteps = 3;
+
+var sceneObjects = [];
 
 Math.toRadians = (x) => {
   return x*Math.PI / 180;
@@ -26,8 +37,6 @@ class PhysicsOverlay extends Component {
     this.dice = props.dice;
     this.facets = props.facets;
 
-    this.sceneObjects = [];
-
     this.state = {
       result: 0
     }
@@ -37,38 +46,64 @@ class PhysicsOverlay extends Component {
     
   }
 
-  loadModels = (scene) => {
-    this.loadModel('d4', scene);
-    this.loadModel('d6', scene);
-    this.loadModel('d8', scene);
-    this.loadModel('d10', scene);
-    this.loadModel('d10p', scene);
-    this.loadModel('d12', scene);
-    this.loadModel('d20', scene);
-  }
+  // Load the dice models from the server
+  // Handy: https://itnext.io/promise-loading-with-three-js-78a6297652a5
+  loadModels = () => {
+    var dice = ['d4', 'd6', 'd8', 'd10', 'd10p', 'd12', 'd20'];
 
-  loadModel = (fileName, scene) => {
-    var objList = this.sceneObjects;
-    loader.load(modelsDirectory + fileName + '.glb', function (obj) {
-      console.log("Loaded", obj);
-      var material = obj.scene.children[0].material;
-      console.log(material);
-      material.color = {r: Math.random(), g: Math.random(), b: Math.random()};
-      material.roughness = .4;
-      material.metalness = .5;
-      obj.scene.children[0].material = material;
-      obj.scene.children[0].castShadow = true;
-      obj.scene.children[0].position.x = .4 * (Math.random());
-      obj.scene.children[0].position.z = .4 * (Math.random());
-      scene.add(obj.scene);
-      objList.push(obj);
-    }, undefined, function (error) {
-      console.error(error);
+    var that = this;
+    var promises = dice.map((die) => {
+      return that.loadModel(die);
     });
-  }
+
+    return Promise.all(promises);
+  };
+
+  // Load a model and instantiate it in the scene
+  instantiateModel = (model) => {
+    var actualModel = model.scene.children[0];
+    var material = actualModel.material;
+
+    // Give it a random dice-like material
+    material.color = {r: Math.random(), g: Math.random(), b: Math.random()};
+    material.roughness = .4;
+    material.metalness = .5;
+
+    // The GLTF loader works like this:
+    actualModel.material = material;
+    
+    actualModel.castShadow = true;
+
+    // Offset the position just so we can see easier during development
+    // TODO: remove
+    actualModel.position.x = .4 * (Math.random());
+    actualModel.position.z = .4 * (Math.random());
+
+    // This is just how GLTF import works, don't question it:
+    scene.add(model.scene);
+
+    // Create a gameobject out of the model and add it to the list
+    sceneObjects.push({
+      obj: model,
+      rigidbody: null
+    });
+  };
+
+  loadModel = (fileName) => {
+    var that = this;
+    return new Promise(resolve => {
+      loader.load(modelsDirectory + fileName + '.glb', (model) => {
+        that.instantiateModel(model);
+        resolve(model);
+      });
+    });
+  };
 
   componentDidMount() {
-    // === THREE.JS CODE START ===
+    this.createRenderingScene();
+  }
+
+  createRenderingScene = () => {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xffffff);
     camera = new THREE.PerspectiveCamera(75, 1, 0.01, 100);
@@ -95,27 +130,108 @@ class PhysicsOverlay extends Component {
     plane.receiveShadow = true;
     plane.position.z = 0;
     plane.position.y = -.5;
-    plane.rotation.x = Math.toRadians(-90);
 
     scene.add(plane);
 
-    this.loadModels(scene);
+    this.loadModels().then(this.createPhysicsScene);
     camera.position.z = 1;
     camera.position.y = .2;
-    camera.rotation.z = 4;
+  };
+
+  createPhysicsScene = () => {
+    // Setup our world
+    world = new CANNON.World();
+    world.gravity.set(0, 0, -9.82); // m/s²
+
+    // Create bodies for the dice
+    var radius = 1; // m
+    console.log(sceneObjects);
+
+    for (var i = 0; i < sceneObjects.length; i++) {
+      var gameObject = sceneObjects[i];
+
+      var geometry = gameObject.obj.scene.children[0].geometry.attributes.position.array;
+      console.log(geometry);
+
+      var meshPoints = geometry.map(function(v) {
+        console.log(THREE.Vector3);
+        v = v.fromBufferAttribute(v);//doesn't work
+        return new CANNON.Vec3( v.x, v.y, v.z )
+      });
+
+      var meshFaces = geometry.faces.map(function(f) {
+        return [f.a, f.b, f.c]
+      });
+
+      var polyhedron = new CANNON.ConvexPolyhedron(meshPoints, meshFaces);
+
+      var body = new CANNON.Body({
+        mass: 1, // kg
+        position: gameObject.obj.scene.children[0].position,
+        shape: polyhedron
+      });
+      console.log(body);
+      gameObject.rigidbody = body;
+      world.addBody(gameObject.rigidbody);
+      /*
+        cannonPoints = geometry.vertices.map(function(v) {
+            return new CANNON.Vec3( v.x, v.y, v.z )
+        })
+
+        cannonFaces = geometry.faces.map(function(f) {
+            return [f.a, f.b, f.c]
+        })
+      */
+    }
+
+    // Create a plane
+    var groundBody = new CANNON.Body({
+        mass: 0 // mass == 0 makes the body static
+    });
+    var groundShape = new CANNON.Plane();
+    console.log(groundShape);
+    groundBody.addShape(groundShape);
+    world.addBody(groundBody);
+
+    // Start the simulation
     this.animate();
-    // === THREE.JS EXAMPLE CODE END ===
+  };
+
+  simLoop = (time) => {
+    if (lastTime !== undefined){
+      var dt = (time - lastTime) / 1000;
+      //world.step(fixedTimeStep, dt, maxSubSteps);
+      world.step(fixedTimeStep);
+    }
+    lastTime = time;
+  }
+
+  // Sync renderer to physics
+  syncRenderer = () => {
+    sceneObjects.forEach((gameObject) => {
+      var actualObj = gameObject.obj.scene.children[0];
+      var body = gameObject.rigidbody;
+      if (actualObj == null || body == null)
+        return;
+
+      actualObj.position.x = body.position.x;
+      actualObj.position.y = body.position.y;
+      actualObj.position.z = body.position.z;
+      actualObj.quaternion.x = body.quaternion.x;
+      actualObj.quaternion.y = body.quaternion.y;
+      actualObj.quaternion.z = body.quaternion.z;
+      actualObj.quaternion.w = body.quaternion.w;
+    });
+
   }
 
   animate = () => {
-    requestAnimationFrame(this.animate);
+
+    this.simLoop(requestAnimationFrame(this.animate));
+
+    this.syncRenderer();
 
     controls.update();
-
-    this.sceneObjects.forEach((obj) => {
-      obj.scene.children[0].rotation.x += 0.05;
-      obj.scene.children[0].rotation.y += 0.02;
-    });
 
     renderer.render(scene, camera);
   }
