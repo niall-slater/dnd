@@ -9,7 +9,7 @@ import CharacterSheet from './pages/CharacterSheet';
 import LocalStorageHelper from './helpers/LocalStorageHelper';
 import PhysicsOverlay from './components/dice/PhysicsOverlay';
 
-const version = 0.13;
+const version = 0.15;
 
 export default class App extends React.Component {
 

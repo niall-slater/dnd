@@ -3,8 +3,11 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { threeToCannon } from 'three-to-cannon';
+window.THREE = THREE;
 
 const modelsDirectory = "criticalassist/3d/scaled/";
+const physModelsDirectory = "criticalassist/3d/phys/";
 
 const loader = new GLTFLoader();
 
@@ -46,10 +49,11 @@ class PhysicsOverlay extends Component {
     
   }
 
-  // Load the dice models from the server
+  // Load the dice models
   // Handy: https://itnext.io/promise-loading-with-three-js-78a6297652a5
   loadModels = () => {
     var dice = ['d4', 'd6', 'd8', 'd10', 'd10p', 'd12', 'd20'];
+    //dice = ['d20'];
 
     var that = this;
     var promises = dice.map((die) => {
@@ -85,7 +89,8 @@ class PhysicsOverlay extends Component {
     // Create a gameobject out of the model and add it to the list
     sceneObjects.push({
       obj: model,
-      rigidbody: null
+      rigidbody: null,
+      dieName: model.dieName
     });
   };
 
@@ -93,7 +98,16 @@ class PhysicsOverlay extends Component {
     var that = this;
     return new Promise(resolve => {
       loader.load(modelsDirectory + fileName + '.glb', (model) => {
+        model.dieName = fileName;
         that.instantiateModel(model);
+        resolve(model);
+      });
+    });
+  };
+
+  loadPhysModel = (fileName) => {
+    return new Promise(resolve => {
+      loader.load(physModelsDirectory + fileName + '.glb', (model) => {
         resolve(model);
       });
     });
@@ -150,29 +164,33 @@ class PhysicsOverlay extends Component {
     for (var i = 0; i < sceneObjects.length; i++) {
       var gameObject = sceneObjects[i];
 
-      var geometry = gameObject.obj.scene.children[0].geometry.attributes.position.array;
-      console.log(geometry);
+      console.log(i);
+      //https://computergraphics.stackexchange.com/questions/7519/how-mesh-geometry-data-vertex-coordinates-stored-in-gltf
+      //maybe don't even use gltf?? 
 
-      var meshPoints = geometry.map(function(v) {
-        console.log(THREE.Vector3);
-        v = v.fromBufferAttribute(v);//doesn't work
-        return new CANNON.Vec3( v.x, v.y, v.z )
+      // eslint-disable-next-line no-loop-func
+      this.loadPhysModel(gameObject.dieName).then(physModel => {
+        var name = physModel.scene.children[0].name.toLowerCase();
+
+        // this is an ugly hack and i'm proud of it
+        if (name === "d6_numbered")
+          name = "d6";
+        else if (name === "d10_percentile")
+          name = "d10p";
+
+        var associatedGameObject = sceneObjects.find(x => {return x.dieName === name});
+        var geometry = physModel.scene.children[0];
+        var polyhedron = threeToCannon(geometry, {type: threeToCannon.Type.MESH});
+  
+        var body = new CANNON.Body({
+          mass: .1, // kg
+          position: geometry.position,
+          shape: polyhedron
+        });
+
+        associatedGameObject.rigidbody = body;
+        world.addBody(associatedGameObject.rigidbody);
       });
-
-      var meshFaces = geometry.faces.map(function(f) {
-        return [f.a, f.b, f.c]
-      });
-
-      var polyhedron = new CANNON.ConvexPolyhedron(meshPoints, meshFaces);
-
-      var body = new CANNON.Body({
-        mass: 1, // kg
-        position: gameObject.obj.scene.children[0].position,
-        shape: polyhedron
-      });
-      console.log(body);
-      gameObject.rigidbody = body;
-      world.addBody(gameObject.rigidbody);
       /*
         cannonPoints = geometry.vertices.map(function(v) {
             return new CANNON.Vec3( v.x, v.y, v.z )
@@ -183,13 +201,13 @@ class PhysicsOverlay extends Component {
         })
       */
     }
+    console.log(sceneObjects);
 
     // Create a plane
     var groundBody = new CANNON.Body({
         mass: 0 // mass == 0 makes the body static
     });
     var groundShape = new CANNON.Plane();
-    console.log(groundShape);
     groundBody.addShape(groundShape);
     world.addBody(groundBody);
 
